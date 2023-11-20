@@ -1,7 +1,7 @@
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import kos from "../assets/kos2.jpeg";
-import Navigation from "./Navigation";
-import Cardvis from "./Cardvis";
+import Navigation from "../components/Navigation";
+import Cardvis from "../components/Cardvis";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use a CDN link
 import { useEffect } from "react";

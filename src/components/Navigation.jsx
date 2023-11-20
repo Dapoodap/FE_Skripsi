@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../App.css'
+import { Link } from 'react-router-dom';
 
 function Navigation() {
   return (
@@ -18,10 +19,10 @@ function Navigation() {
           navbarScroll
         >
           
-            <Nav.Link id='listNav' href="#action1" style={{fontSize:'23px',fontWeight:'400' }}>Beranda</Nav.Link>
-            <Nav.Link id='listNav' href="#action1" style={{fontSize:'23px',fontWeight:'400' }}>Tentang</Nav.Link>
-            <Nav.Link id='listNav' href="#action1" style={{fontSize:'23px',fontWeight:'400' }}>Kamar</Nav.Link>
-            <Nav.Link id='listNav' href="#action2" style={{fontSize:'23px',fontWeight:'400' }}>Contact</Nav.Link>
+            <Nav.Link id='listNav' ><Link style={{ textDecoration:'none',color:'#24AB70',fontSize:'23px' }} to={'/'}>Beranda</Link></Nav.Link>
+            <Nav.Link id='listNav' ><Link style={{ textDecoration:'none',color:'#24AB70',fontSize:'23px' }} to={'/about'}>Tentang</Link></Nav.Link>
+            <Nav.Link id='listNav' ><Link style={{ textDecoration:'none',color:'#24AB70',fontSize:'23px' }} to={'/room'}>Kamar</Link></Nav.Link>
+            <Nav.Link id='listNav' ><Link style={{ textDecoration:'none',color:'#24AB70',fontSize:'23px' }} to={'/contact'}>Kontak</Link></Nav.Link>
     
         </Nav>
         <Button id='BtnLogin' style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Login</Button>
