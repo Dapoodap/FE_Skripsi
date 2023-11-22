@@ -25,3 +25,9 @@
         margin: 20px auto !important 
     }
 }
+
+#card_hover:hover{
+    border: 2px solid black;
+    box-shadow:  -9px 9px 18px #1a7950, 9px -9px 18px #2edd90;
+    transition: all 0.5s ease-in-out 
+}
