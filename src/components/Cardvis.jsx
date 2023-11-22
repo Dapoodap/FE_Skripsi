@@ -34,6 +34,7 @@ function Cardvis() {
             <Card.Text>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum et accusamus minima necessitatibus, at magnam ea delectus expedita quae temporibus!</p>
             </Card.Text>
+            
           </Card.Body>
           <Card.Img variant="bottom" src={gbr3} style={{border:'2px solid black',bottom:'0'}} className="img-fluid" />
         </Card>
