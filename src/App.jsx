@@ -6,6 +6,8 @@ import About from './pages/About';
 import Roomcatalog from './pages/Roomcatalog';
 import Contact from './pages/Contact';
 import Loginpage from './pages/Loginpage';
+import Detail from './pages/Detail';
+import BookingForm from './pages/BookingForm';
 function App() {
 
   return (
@@ -16,6 +18,8 @@ function App() {
     <Route path='/room' element={<Roomcatalog/>}/>
     <Route path='/contact' element={<Contact/>}/>
     <Route path='/login' element={<Loginpage/>}/> {/*  */}
+    <Route path='/detail' element={<Detail/>}/> {/*  */}
+    <Route path='/booking' element={<BookingForm/>}/> 
    </Routes>
    </>
   )

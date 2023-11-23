@@ -31,3 +31,6 @@
     box-shadow:  -9px 9px 18px #1a7950, 9px -9px 18px #2edd90;
     transition: all 0.5s ease-in-out 
 }
+.dropdown-toggle::after {
+    display: none !important; 
+  }

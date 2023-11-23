@@ -1,7 +1,12 @@
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import gbr from "../assets/kos.jpg";
+import { useNavigate } from "react-router-dom";
 
 function Cardroomcatalog() {
+  const nav = useNavigate()
+  const sewaKamar = () =>{
+    nav('/detail')
+  }
   return (
     <>
       <Container
@@ -34,7 +39,7 @@ function Cardroomcatalog() {
             <strong>Rp.1.200.000/Bulan</strong>
             <br />
             <br />
-            <Button variant="info">Book Now</Button>
+            <Button onClick={sewaKamar} variant="info">Book Now</Button>
           </Card.Body>
           <div className="position-absolute top-0 end-0 p-3">
             <Badge bg="warning">4.5 Stars</Badge>
