@@ -1,5 +1,6 @@
 import {
   Card,
+  Carousel,
   Col,
   Container,
   Image,
@@ -586,7 +587,7 @@ function Homescreen() {
         </h2>
       </div>
         <Row >
-          <Col xs={12} md={6} style={{padding:'10px'}}>
+          <Col xs={12} md={6} className="d-none d-xl-block" style={{padding:'10px'}}>
             <div className="flexcontainer" style={{ display:'flex',flexWrap:'wrap-reverse',gap:'3px',margin:'auto',width:'fit-content'}}>
               <div className="left_wrapper" style={{ maxWidth:'331px',maxHeight:'500px',marginBottom:'27px'}}>
                 <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px' }} src={xample} alt="" />
@@ -600,7 +601,22 @@ function Homescreen() {
               </div>
             </div>
           </Col>
-          <Col xs={12} md={6} style={{padding:'10px'}}>
+          <Col md={12} className="d-xl-none" >
+          {/* Galeri Gambar */}
+          <Carousel data-aos="zoom-out-right">
+            <Carousel.Item>
+              <Image src={kos}fluid />
+            </Carousel.Item>
+            <Carousel.Item>
+              <Image src={kos} fluid />
+            </Carousel.Item>
+            <Carousel.Item>
+              <Image src={kos} fluid />
+            </Carousel.Item>
+            {/* Tambahkan gambar lainnya sesuai kebutuhan */}
+          </Carousel>
+        </Col>
+          <Col xs={12} md={12} xl={6}  style={{padding:'10px'}}>
           <div
           data-aos="zoom-out-left"
               className="centred"
