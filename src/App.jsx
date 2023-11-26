@@ -8,6 +8,7 @@ import Contact from './pages/Contact';
 import Loginpage from './pages/Loginpage';
 import Detail from './pages/Detail';
 import BookingForm from './pages/BookingForm';
+import DashboardUser from './pages/user/DashboardUser';
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
     <Route path='/login' element={<Loginpage/>}/> {/*  */}
     <Route path='/detail' element={<Detail/>}/> {/*  */}
     <Route path='/booking' element={<BookingForm/>}/> 
+    <Route path='/user' element={<DashboardUser/>}/> 
    </Routes>
    </>
   )

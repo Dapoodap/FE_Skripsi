@@ -10,9 +10,12 @@ import { useState } from 'react';
 
 function Navigation() {
   const navigate = useNavigate()
-  const [isLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(true);
   const loginFunc = () =>{
     navigate('/login')
+  }
+  const dashboardFunc = () =>{
+    navigate('/user')
   }
   // useEffect(() => {
   //   // Gantilah ini dengan logika sesuai aplikasi Anda
@@ -37,7 +40,7 @@ function Navigation() {
     
         </Nav>
         {isLoggedIn ? (
-                <Button id='BtnLogin' onClick={loginFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Profil</Button>
+                <Button id='BtnLogin' onClick={dashboardFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Profil</Button>
               ) : (
                 <Button id='BtnLogin' onClick={loginFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Login</Button>
               )}
