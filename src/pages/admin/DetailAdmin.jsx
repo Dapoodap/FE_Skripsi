@@ -63,7 +63,7 @@ function DetailAdmin() {
                 <Row>
                   <Col md={12} lg={8}>
                     {/* Sapaan dan penjelasan UserDashboard */}
-                    <h1>sHALO, ADMION!</h1>
+                    <h1>HALO, ADMION!</h1>
                     <p>Ini adalah User Dashboard Anda. Temukan informasi penting dan kelola akun Anda di sini.</p>
     
                     {/* List Data Diri Penghuni */}

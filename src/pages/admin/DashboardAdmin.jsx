@@ -6,6 +6,9 @@ import Bayarsewa from '../user/Bayarsewa';
 import Lapor from '../user/Lapor';
 import Usersetting from '../user/Usersetting';
 import DetailAdmin from './DetailAdmin';
+import Datapenghuni from './Datapenghuni';
+import Reviewbukti from './Reviewbukti';
+import Reviewlaporan from './Reviewlaporan';
 
 function DashboardAdmin() {
     const [selectedMenu, setSelectedMenu] = useState('informasi-penghuni');
@@ -32,24 +35,24 @@ function DashboardAdmin() {
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'status-pembayaran'}
-              onClick={() => handleMenuClick('status-pembayaran')}
+              active={selectedMenu === 'data-penghuni'}
+              onClick={() => handleMenuClick('data-penghuni')}
             >
               Status Pembayaran
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'bayar-sewa'}
-              onClick={() => handleMenuClick('bayar-sewa')}
+              active={selectedMenu === 'review-bukti'}
+              onClick={() => handleMenuClick('review-bukti')}
             >
-              Bayar Sewa
+              Review Bukti
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'lapor-keluhan'}
-              onClick={() => handleMenuClick('lapor-keluhan')}
+              active={selectedMenu === 'review-laporan'}
+              onClick={() => handleMenuClick('review-laporan')}
             >
-              Laporan Keluhan
+              Review Laporan
             </ListGroup.Item>
             <ListGroup.Item
               action
@@ -78,22 +81,22 @@ function DashboardAdmin() {
               </ListGroup.Item>
               <ListGroup.Item
                 action
-                active={selectedMenu === 'status-pembayaran'}
-                onClick={() => handleMenuClick('status-pembayaran')}
+                active={selectedMenu === 'data-penghuni'}
+                onClick={() => handleMenuClick('data-penghuni')}
               >
-                Status Pembayaran
+                Data Penghuni
               </ListGroup.Item>
               <ListGroup.Item
               action
-              active={selectedMenu === 'bayar-sewa'}
-              onClick={() => handleMenuClick('bayar-sewa')}
+              active={selectedMenu === 'review-bukti'}
+              onClick={() => handleMenuClick('review-bukti')}
             >
-              Bayar Sewa
+              Review Bukti
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'lapor-keluhan'}
-              onClick={() => handleMenuClick('lapor-keluhan')}
+              active={selectedMenu === 'review-laporan'}
+              onClick={() => handleMenuClick('review-laporan')}
             >
               Laporan Keluhan
             </ListGroup.Item>
@@ -125,14 +128,14 @@ function DashboardAdmin() {
             <DetailAdmin/>
           )}
 
-          {selectedMenu === 'status-pembayaran' && (
-            <Sidebardashboaruser/>
+          {selectedMenu === 'data-penghuni' && (
+            <Datapenghuni/>
           )}
-          {selectedMenu === 'bayar-sewa' && (
-            <Bayarsewa/>
+          {selectedMenu === 'review-bukti' && (
+            <Reviewbukti/>
           )}
-          {selectedMenu === 'lapor-keluhan' && (
-            <Lapor/>
+          {selectedMenu === 'review-laporan' && (
+            <Reviewlaporan/>
           )}
           {selectedMenu === 'setting-profil' && (
             <Usersetting/>
