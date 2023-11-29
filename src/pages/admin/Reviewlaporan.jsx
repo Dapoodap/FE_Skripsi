@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Badge, Button, Card, Table } from "react-bootstrap";
 
 function Reviewlaporan() {
-    const [laporanMasuk, setLaporanMasuk] = useState([
+    const [laporanMasuk] = useState([
         { id: 1, judul: 'Pembayaran Tertunda', status: 'pending', tgl: '2023-01-15' },
         { id: 2, judul: 'Kerusakan Pintu', status: 'resolved', tgl: '2023-02-20' },
         // ... tambahkan data laporan masuk lainnya

@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import {Col, Container, ListGroup, Offcanvas, Row } from 'react-bootstrap'
 import { List } from 'react-bootstrap-icons';
-import Sidebardashboaruser from '../../components/TableUser';
-import Bayarsewa from '../user/Bayarsewa';
-import Lapor from '../user/Lapor';
-import Usersetting from '../user/Usersetting';
 import DetailAdmin from './DetailAdmin';
 import Datapenghuni from './Datapenghuni';
 import Reviewbukti from './Reviewbukti';
 import Reviewlaporan from './Reviewlaporan';
+import Buatpengumuman from './Buatpengumuman';
 
 function DashboardAdmin() {
     const [selectedMenu, setSelectedMenu] = useState('informasi-penghuni');
@@ -38,7 +35,7 @@ function DashboardAdmin() {
               active={selectedMenu === 'data-penghuni'}
               onClick={() => handleMenuClick('data-penghuni')}
             >
-              Status Pembayaran
+              Data Penghuni
             </ListGroup.Item>
             <ListGroup.Item
               action
@@ -56,10 +53,9 @@ function DashboardAdmin() {
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'setting-profil'}
-              onClick={() => handleMenuClick('setting-profil')}
-            >
-              Setting Profil
+              active={selectedMenu === 'pengumuman'}
+              onClick={() => handleMenuClick('pengumuman')}
+            > Buat Pengumuman
             </ListGroup.Item>
             {/* Tambahkan menu lain jika diperlukan */}
           </ListGroup>
@@ -102,10 +98,10 @@ function DashboardAdmin() {
             </ListGroup.Item>
             <ListGroup.Item
               action
-              active={selectedMenu === 'setting-profil'}
-              onClick={() => handleMenuClick('setting-profil')}
+              active={selectedMenu === 'pengumuman'}
+              onClick={() => handleMenuClick('pengumuman')}
             >
-              Setting Profil
+              pengumuman
             </ListGroup.Item>
               {/* Tambahkan menu lain jika diperlukan */}
             </ListGroup>
@@ -137,8 +133,8 @@ function DashboardAdmin() {
           {selectedMenu === 'review-laporan' && (
             <Reviewlaporan/>
           )}
-          {selectedMenu === 'setting-profil' && (
-            <Usersetting/>
+          {selectedMenu === 'pengumuman' && (
+            <Buatpengumuman/>
           )}
           {/* Tambahkan konten lain sesuai dengan menu */}
         </Col>

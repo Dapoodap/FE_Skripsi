@@ -1,9 +1,10 @@
 // components/RoomDetail.js
 
-import { Container, Row, Col, Image, Card, Form, Dropdown, Button, ListGroup, Carousel, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Image, Card, Form, Dropdown, Button, Carousel, Badge } from 'react-bootstrap';
 import gbr from '../assets/kos.jpg'
 import Navigation from '../components/Navigation';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { useState } from 'react';
 
 
@@ -30,8 +31,10 @@ const Detail = () => {
   useEffect(() => {
     console.log(tambahanElektronik);  
   }, [tambahanElektronik])
-  
-
+  const nav = useNavigate()
+  const booking = ()=>{
+  nav('/booking')
+  }
   return (
     <>
     <Navigation/>
@@ -109,7 +112,7 @@ const Detail = () => {
         </Col>
       </Row>
     </Container>
-    <Container>
+    <Container className='py-4'>
     <Row className="mt-4">
         <h3>Pesan Kamar</h3>
         <Col md={12}>
@@ -136,7 +139,7 @@ const Detail = () => {
                 </ul>
             </div>
             </Form.Group>
-            <Button id='BtnLogin' type='submit' style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Sewa Kamar</Button>
+            <Button id='BtnLogin' onClick={booking} type='submit' style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Sewa Kamar</Button>
           </Form> 
         </Col>
         
