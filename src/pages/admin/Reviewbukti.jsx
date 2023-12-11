@@ -49,7 +49,7 @@ function Reviewbukti() {
               <td>{bukti.nomorInvoice}</td>
               <td>{bukti.namaPengirim}</td>
               <td>{bukti.tanggal}</td>
-              <td>{bukti.tanggal}</td>
+              <td>{bukti.kategori}</td>
               <td>{(() => {
                     switch (bukti.status) {
                       case 'approve':

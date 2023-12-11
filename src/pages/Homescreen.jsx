@@ -31,7 +31,7 @@ function Homescreen() {
       <Navigation />
       <br />
       <br />
-      <Container fluid style={{ overflow: "hidden" }}>
+      <Container className="py-4 px-3" fluid style={{ overflow: "hidden" }}>
         <Row>
           <Col xs={12} xl={6} md={12} data-aos="fade-right">
             <div
@@ -47,18 +47,18 @@ function Homescreen() {
               <h1
                 style={{
                   fontFamily: "Sofia, cursive",
-                  fontSize: "50px",
+                  fontSize: "55px",
                   fontWeight: "500",
                   color: "#7C6A46",
                 }}
               >
-                Paradise View
+                Wisma Kos Dariz
               </h1>
               <p style={{ fontSize: "50px", fontWeight: "700" }}>
-                Hotel for every moment rich in emotion
+                Tempat Luas Bebas Stress, Kos Tanpa Kompromi
               </p>
-              <p style={{ fontSize: "15px", fontWeight: "500" }}>
-                Every moment feels like the first time in paradise view
+              <p style={{ fontSize: "20px", fontWeight: "500" }}>
+                Temukan Fasilitas Terbaik di Wisma Kos Dariz
               </p>
               <a
                 className="btnEx"
@@ -95,13 +95,13 @@ function Homescreen() {
           style={{ fontSize: "55px", fontWeight: "700", color: "#7C6A46" }}
           className="text-center"
         >
-          Our Mission
+          Misi Kami
         </h1>
         <h2
           style={{ fontSize: "40px", fontWeight: "400", color: "black" }}
           className="text-center"
         >
-          To achieve customer statifaction
+          Untuk mempertahankan kepuasan penyewa
         </h2>
       </div>
       <br />
@@ -153,9 +153,8 @@ function Homescreen() {
                 Wisma Kos DARIZ
               </p>
               <p style={{ fontSize: "25px", fontWeight: "500" }}>
-                Terletak di pusat wilayah tembalang, Kota Semarang dan
-                terjangkau dari kampus Universitas Diponegoro Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Nostrum, odit?
+              Rasakan kemudahan pembayaran sewa dan uang muka dengan <span className="fst-italic">chatbot</span> kami. Temukan info lebih lanjut di bagian 'Tentang'!
+              dan coba pengalaman yang lancar dan efisien dalam menyewa kamar.
               </p>
               <a
                 className="btnEx"
@@ -184,13 +183,13 @@ function Homescreen() {
           style={{ fontSize: "55px", fontWeight: "700", color: "#7C6A46" }}
           className="text-center"
         >
-          Our Facilities
+          Fasilitas Kami
         </h1>
         <h2
           style={{ fontSize: "40px", fontWeight: "400", color: "black" }}
           className="text-center"
         >
-          To achieve customer statifaction
+          Keunggulan Fasilitas, Untuk Penghuni
         </h2>
       </div>
       <Container style={{ overflow: "hidden" }}>
@@ -290,7 +289,7 @@ function Homescreen() {
                   fontSize: "15px",
                 }}
               >
-                24/7 Light
+                24/7 Listrik
               </p>
             </Card.Body>
           </Card>
@@ -331,7 +330,7 @@ function Homescreen() {
                   fontSize: "15px",
                 }}
               >
-                Parking Space
+                Lahan Parkir
               </p>
             </Card.Body>
           </Card>
@@ -361,7 +360,7 @@ function Homescreen() {
                   fontSize: "15px",
                 }}
               >
-                Kitchen
+                Dapur Umum
               </p>
             </Card.Body>
           </Card>
@@ -391,7 +390,7 @@ function Homescreen() {
                   fontSize: "15px",
                 }}
               >
-                Electricty Include
+                Termasuk Listrik
               </p>
             </Card.Body>
           </Card>
@@ -577,13 +576,13 @@ function Homescreen() {
           style={{ fontSize: "55px", fontWeight: "700" }}
           className="text-center"
         >
-          Our Room type
+          Tipe Kamar Kami
         </h1>
         <h2
           style={{ fontSize: "40px", fontWeight: "400", color: "black" }}
           className="text-center"
         >
-          To achieve customer statifaction
+          Pilih sesuai kebutuhan dan kenymanan anda
         </h2>
       </div>
         <Row >
@@ -628,13 +627,11 @@ function Homescreen() {
                 justifyContent: "center",
               }}
             >
-              <p style={{ fontSize: "55px", fontWeight: "700" }}>
+              {/* <p style={{ fontSize: "45px", fontWeight: "700" }}>
                 Wisma Kos DARIZ
-              </p>
+              </p> */}
               <p style={{ fontSize: "25px", fontWeight: "500" }}>
-                Terletak di pusat wilayah tembalang, Kota Semarang dan
-                terjangkau dari kampus Universitas Diponegoro Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Nostrum, odit?
+              Temukan kenyamanan tanpa batas dengan katalog kamar kami yang menawarkan tiga tipe berbeda. Dari kamar ekonomis hingga suite mewah, setiap ruangan memiliki fasilitas uniknya sendiri.
               </p>
               <a
                 className="btnEx"

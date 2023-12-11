@@ -16,11 +16,11 @@ function Cardvis() {
         <Card data-aos="fade-up" data-aos-anchor-placement="center-bottom" style={{ width: "18rem",border:'2px solid black',position:'relative'}}>
           <Card.Body style={{ height:'220px', padding:'15px 10px 15px 10px '}}>
             <Card.Title>
-                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Kenyamanan</h2>
+                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Keamanan</h2>
             </Card.Title>
             <br />
             <Card.Text>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum et accusamus minima necessitatibus, at magnam ea delectus expedita quae temporibus!</p>
+              <p>Memastikan keselamatan dan keamanan setiap penghuni adalah prioritas utama kami.kami berkomitmen untuk menciptakan lingkungan yang aman dan nyaman.</p>
             </Card.Text>
           </Card.Body>
           <Card.Img variant="bottom" src={gbr2} style={{border:'2px solid black',bottom:'0'}} className="img-fluid" />
@@ -28,11 +28,11 @@ function Cardvis() {
         <Card data-aos="fade-up" data-aos-anchor-placement="center-bottom" style={{ width: "18rem",border:'2px solid black',position:'relative'}}>
           <Card.Body style={{ height:'220px', padding:'15px 10px 15px 10px '}}>
             <Card.Title>
-                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Keamanan</h2>
+                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Kenyamanan</h2>
             </Card.Title>
             <br />
             <Card.Text>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum et accusamus minima necessitatibus, at magnam ea delectus expedita quae temporibus!</p>
+              <p>Menawarkan pengalaman hunian yang unggul. Kami memberikan perhatian terhadap detail dalam setiap aspek dari kos-kosan kami.</p>
             </Card.Text>
             
           </Card.Body>
@@ -41,11 +41,11 @@ function Cardvis() {
         <Card data-aos="fade-up" data-aos-anchor-placement="center-bottom" style={{ width: "18rem",border:'2px solid black',position:'relative'}}>
           <Card.Body style={{ height:'220px', padding:'15px 10px 15px 10px '}}>
             <Card.Title>
-                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Ketenangan</h2>
+                <h2 style={{ fontSize:'27px',fontWeight:'600',lineHeight:'28px',letterSpacing:'1px' }}>Kemudahan</h2>
             </Card.Title>
             <br />
             <Card.Text>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum et accusamus minima necessitatibus, at magnam ea delectus expedita quae temporibus!</p>
+              <p>Mengutamakan kemudahan akses bagi setiap penghuni. Kami bertujuan untuk memberikan gaya hidup praktis dan tanpa <span className="fst-italic">ribet</span> bagi setiap penghuni.</p>
             </Card.Text>
           </Card.Body>
           <Card.Img variant="bottom" src={gbr1} style={{border:'2px solid black',bottom:'0'}} className="img-fluid" />

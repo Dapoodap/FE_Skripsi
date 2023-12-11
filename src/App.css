@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     font-family: 'Lato', sans-serif;
+    scroll-behavior: smooth;
 }
 
 /* Navbar */
@@ -34,3 +35,6 @@
 .dropdown-toggle::after {
     display: none !important; 
   }
+  ::-webkit-scrollbar {
+    display: none;
+}
