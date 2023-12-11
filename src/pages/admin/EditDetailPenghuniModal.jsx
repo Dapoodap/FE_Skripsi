@@ -75,12 +75,6 @@ console.log(index)
         <Button variant="primary" onClick={handleEditDetailPenghuni}>
           Simpan Perubahan
         </Button>
-        <Button variant="danger" onClick={handleResetPassword}>
-          Reset Password
-        </Button>
-        <Button variant="danger" >
-          Hapus
-        </Button>
       </Modal.Footer>
     </Modal>
   );
