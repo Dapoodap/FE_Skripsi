@@ -5,22 +5,54 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../App.css'
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 
 function Navigation() {
   const navigate = useNavigate()
-  const [isLoggedIn] = useState(true);
+
+  const [auth,setAuth] = useState(false)
+  const [isAdmin,setIsAdmin] = useState(false)
   const loginFunc = () =>{
     navigate('/login')
   }
   const dashboardFunc = () =>{
-    navigate('/user')
+    // console.log(isAdmin)
+    isAdmin ? navigate('/admin') : navigate('/user')
   }
   // useEffect(() => {
   //   // Gantilah ini dengan logika sesuai aplikasi Anda
     
   // }, []);
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setAuth(true)
+      const token = localStorage.getItem('token')
+      const id = jwtDecode(token).id
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get(`https://kosdariz-6v25wnffuq-uc.a.run.app/penghuni/${id}`);
+          const user = response.data.data
+          if (user.noKamar !== undefined) {
+           setIsAdmin(false)
+          }else{
+            setIsAdmin(true)
+          }
+          
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+      fetchUser()
+    }
+    else{
+      setAuth(false)
+
+    }
+    
+  }, []);
   return (
     <Navbar expand="lg" className="bg-body-tertiary" style={{padding : '25px'}}>
     <Container fluid>
@@ -39,7 +71,7 @@ function Navigation() {
             <Nav.Link id='listNav' ><Link style={{ textDecoration:'none',color:'#24AB70',fontSize:'23px' }} to={'/contact'}>Kontak</Link></Nav.Link>
     
         </Nav>
-        {isLoggedIn ? (
+        {auth ? (
                 <Button id='BtnLogin' onClick={dashboardFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Profil</Button>
               ) : (
                 <Button id='BtnLogin' onClick={loginFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Login</Button>

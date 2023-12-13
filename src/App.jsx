@@ -10,6 +10,8 @@ import Detail from './pages/Detail';
 import BookingForm from './pages/BookingForm';
 import DashboardUser from './pages/user/DashboardUser';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
+import AdminLogin from './pages/admin/AdminLogin';
+import PrivateRoutes from './utils/PrivateRoutes';
 function App() {
 
   return (
@@ -19,11 +21,15 @@ function App() {
     <Route path='/about' element={<About/>}/>
     <Route path='/room' element={<Roomcatalog/>}/>
     <Route path='/contact' element={<Contact/>}/>
-    <Route path='/login' element={<Loginpage/>}/> {/*  */}
-    <Route path='/detail' element={<Detail/>}/> {/*  */}
+    <Route path='/login' element={<Loginpage/>}/> 
+    <Route path='/adminLogin' element={<AdminLogin/>}/> 
+    <Route path='/detail/:id' element={<Detail/>}/> 
     <Route path='/booking' element={<BookingForm/>}/> 
-    <Route path='/user' element={<DashboardUser/>}/> 
-    <Route path='/admin' element={<DashboardAdmin/>}/> 
+    <Route element={<PrivateRoutes/>}>
+      <Route path='/user' element={<DashboardUser/>}/> 
+      <Route path='/admin' element={<DashboardAdmin/>}/> 
+    </Route>
+    
    </Routes>
    </>
   )

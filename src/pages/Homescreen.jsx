@@ -8,6 +8,7 @@ import {
   Row,
 } from "react-bootstrap";
 import kos from "../assets/kos2.jpeg";
+
 import Navigation from "../components/Navigation";
 import Cardvis from "../components/Cardvis";
 import AOS from "aos";
@@ -21,11 +22,18 @@ import kitchen from "../assets/kitchen.png";
 import parking from "../assets/parked-car.png";
 import xample from "../assets/xample.jpg";
 import Footer from "../components/Footer";
+import kmr1 from "../assets/kmr1.jpeg"
+import kmr2 from "../assets/kmr2.jpeg"
+import kmr3 from "../assets/kmr3.jpeg"
+
+
 
 function Homescreen() {
+
   useEffect(() => {
     AOS.init({ duration: 2000 });
   }, []);
+  
   return (
     <>
       <Navigation />
@@ -570,7 +578,7 @@ function Homescreen() {
       </Container> */}
 
       
-      <Container fluid style={{ backgroundColor:'#ECE3CE',padding:'20px',overflow:'hidden' }}>
+      <Container fluid style={{ backgroundColor:'#cdc299',padding:'20px',overflow:'hidden' }}>
       <div data-aos="zoom-in-up" style={{ margin: "20px" }}>
         <h1
           style={{ fontSize: "55px", fontWeight: "700" }}
@@ -589,14 +597,14 @@ function Homescreen() {
           <Col xs={12} md={6} className="d-none d-xl-block" style={{padding:'10px'}}>
             <div className="flexcontainer" style={{ display:'flex',flexWrap:'wrap-reverse',gap:'3px',margin:'auto',width:'fit-content'}}>
               <div className="left_wrapper" style={{ maxWidth:'331px',maxHeight:'500px',marginBottom:'27px'}}>
-                <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px' }} src={xample} alt="" />
+                <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px' }} src={kmr1} alt="" />
               </div>
               <div className="right_wrapper" style={{display:'flex',flexDirection:'column',gap:'14px',marginTop:'27px'}}>
               <div style={{ maxWidth:'190px',height:'222px'}} className="wrapper" >
-              <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px'}} src={xample} alt="" />
+              <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px'}} src={kmr2} alt="" />
               </div>
                <div style={{ maxWidth:'190px',height:'222px'}} className="wrapper" >
-               <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px' }} src={xample} alt="" /></div>   
+               <img data-aos="zoom-out-right" style={{ width:'100%',height:'100%',objectFit:'cover',borderRadius:'20px' }} src={kmr3} alt="" /></div>   
               </div>
             </div>
           </Col>
@@ -604,13 +612,13 @@ function Homescreen() {
           {/* Galeri Gambar */}
           <Carousel data-aos="zoom-out-right">
             <Carousel.Item>
-              <Image src={kos}fluid />
+              <Image src={kmr1}fluid />
             </Carousel.Item>
             <Carousel.Item>
-              <Image src={kos} fluid />
+              <Image src={kmr2} fluid />
             </Carousel.Item>
             <Carousel.Item>
-              <Image src={kos} fluid />
+              <Image src={kmr3} fluid />
             </Carousel.Item>
             {/* Tambahkan gambar lainnya sesuai kebutuhan */}
           </Carousel>

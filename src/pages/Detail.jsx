@@ -1,57 +1,83 @@
 // components/RoomDetail.js
 
 import { Container, Row, Col, Image, Card, Form, Dropdown, Button, Carousel, Badge } from 'react-bootstrap';
-import gbr from '../assets/kos.jpg'
 import Navigation from '../components/Navigation';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 // import { useState } from 'react';
 
 
 const Detail = () => {
-//   const [selectedElectronics, setSelectedElectronics] = useState([]);
-    const [tambahanElektronik, setTambahanElektronik] = useState([])
-  const handleElectronicsChange = (eventKey) =>{
-    
-      if (tambahanElektronik.length === 0) {
-        const newArray = [...tambahanElektronik]
-        newArray.push(eventKey)
-        setTambahanElektronik(newArray)
-      }else{
-        if(!tambahanElektronik.includes(eventKey)){
-        const newArray = [...tambahanElektronik]
-        newArray.push(eventKey)
-        setTambahanElektronik(newArray)
-        }else{
-            alert('cukup pilih satu per barang saja')
-        }
-      }
-      
+  function formatCurrency(number) {
+    const formattedNumber = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(number);
+
+    return formattedNumber.replace(/IDR/g, 'Rp.');
   }
+
+  const { id } = useParams();
+  const [kamar, setKamar] = useState([]);
+  const [fasilitas, setFasilitas] = useState([]);
+  const [gambar, setGambar] = useState([]);
+  const [tambahanElektronik, setTambahanElektronik] = useState([]);
+
   useEffect(() => {
-    console.log(tambahanElektronik);  
-  }, [tambahanElektronik])
-  const nav = useNavigate()
-  const booking = ()=>{
-  nav('/booking')
-  }
+    const fetchKamarList = async () => {
+      try {
+        const response = await axios.get(`https://kosdariz-6v25wnffuq-uc.a.run.app/kamar/${id}`);
+        setKamar(response.data.data);
+        if (response.data.data.statusKamar === "isi") {
+          nav('/room')
+        }
+        setGambar(JSON.parse(response.data.data.gambarKamar));
+        setFasilitas(JSON.parse(response.data.data.fasilitasKamar));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchKamarList();
+  }, []);
+
+  const handleElectronicsChange = (eventKey) => {
+    if (!tambahanElektronik.includes(eventKey)) {
+      setTambahanElektronik((prevItems) => [...prevItems, eventKey]);
+    } else {
+      alert('Cukup pilih satu per barang saja');
+    }
+  };
+
+  const handleRemoveItem = (item) => {
+    setTambahanElektronik((prevItems) => prevItems.filter((i) => i !== item));
+  };
+
+  const nav = useNavigate();
+  const booking = () => {
+    nav('/booking');
+  };
   return (
     <>
     <Navigation/>
     <Container className="mt-5" >
       <Row >
       <Col md={8} className="d-none d-md-block">
-          <Image src={gbr} fluid />
+          <Image src={gambar[0]} fluid  style={{ objectFit: 'cover', height: '800px', width: '100%' }}/>
         </Col>
         <Col md={4} className='d-none d-sm-block'>
           <Row>
             {/* Gambar kecil di kanan atas */}
             <Col md={12} className="mb-2">
-              <Image src={gbr} fluid />
+              <Image src={gambar[1]} style={{ objectFit: 'cover', height: '400px', width: '100%' }} fluid />
             </Col>
             {/* Gambar kecil di kanan bawah */}
             <Col md={12}>
-              <Image src={gbr} fluid />
+              <Image src={gambar[2]} style={{ objectFit: 'cover', height: '400px', width: '100%' }} fluid />
             </Col>
           </Row>
         </Col>
@@ -59,13 +85,13 @@ const Detail = () => {
           {/* Galeri Gambar */}
           <Carousel>
             <Carousel.Item>
-              <Image src={gbr}fluid />
+              <Image src={gambar[0]}fluid />
             </Carousel.Item>
             <Carousel.Item>
-              <Image src={gbr} fluid />
+              <Image src={gambar[1]} fluid />
             </Carousel.Item>
             <Carousel.Item>
-              <Image src={gbr} fluid />
+              <Image src={gambar[2]} fluid />
             </Carousel.Item>
             {/* Tambahkan gambar lainnya sesuai kebutuhan */}
           </Carousel>
@@ -75,38 +101,30 @@ const Detail = () => {
         <Col md={12}>
           <Card style={{ backgroundColor:'#F4F4F4',border:'none' }}>
             <Card.Body>
-              <Card.Title style={{ fontSize:'32px',fontWeight:'600',letterSpacing: '0.32px'}}>Kamar Tipe Eksklusif No 1</Card.Title>
-              <Badge className='my-3 mx-2' bg="warning">4.5 Stars</Badge>
+              <Card.Title style={{ fontSize:'32px',fontWeight:'600',letterSpacing: '0.32px'}}>Kamar Tipe {kamar.tipeKamar} No {id}</Card.Title>
+              <Badge className='my-3 mx-2' bg="warning">{kamar.ratingKamar} Stars</Badge>
               
               <Card.Text style={{ fontSize:'18px',fontWeight:'400',letterSpacing:'0.32px',lineHeight:'140%' }} >
-                <p>This is a simple card with an image on the left and description in the middle. Adjust the content as needed. This is a simple card with an image on the left and description in the middle. Adjust the content as needed.</p>
+                <p>{kamar.deskripsiKamar}.</p>
               </Card.Text>
               
             </Card.Body>
             <Card.Body className='py-2' style={{ borderTop:'1px solid #E0E0E0',display:'flex',gap:'5px',alignItems:'center'}}>
-                <div>
-                    <ul>
+                <div><ul>
+                    {fasilitas.map((fas)=>(
+                      <>
+                        
                         <li>
-                            <p>WIFI</p>
+                            <p>{fas}</p>
                         </li>
-                        <li>
-                            <p>WIFI</p>
-                        </li>
-                    </ul>
+                    
+                      </>
+                    ))}</ul>
                 </div>
-                <div>
-                <ul>
-                        <li>
-                            <p>WIFI</p>
-                        </li>
-                        <li>
-                            <p>WIFI</p>
-                        </li>
-                    </ul>
-                </div>
+        
             </Card.Body>
             <Card.Body className='py-2 ' style={{ borderTop:'1px solid #E0E0E0',display:'flex',gap:'5px',justifyContent:'end'}}>
-                <p style={{ fontSize:'18px',fontWeight:'700',letterSpacing:'0.15px',lineHeight:'140%'}}>Rp.1.200.000/Bulan (include tax)</p>
+                <p style={{ fontSize:'18px',fontWeight:'700',letterSpacing:'0.15px',lineHeight:'140%'}}>{formatCurrency(kamar.hargaKamar)}/Bulan (include tax)</p>
             </Card.Body>
           </Card>
         </Col>
@@ -132,10 +150,16 @@ const Detail = () => {
             <div>
             <h3>Tambahan : </h3>
                 <ul>
-                    
-                    <li>
-                        <p>Magic Com | Rp.1.200.000/Bulan</p>
-                    </li>
+                {tambahanElektronik.map((item) => (
+                      <li key={item}>
+                        <p style={{ fontSize:'20px' }}>
+                          {item} | + {formatCurrency(200000)}/Bulan{' '}
+                          <Button variant="danger" size="sm" onClick={() => handleRemoveItem(item)}>
+                            <FontAwesomeIcon icon={faTimes} /> {/* Menggunakan ikon silang (X) */}
+                          </Button>
+                        </p>
+                      </li>
+                    ))}
                 </ul>
             </div>
             </Form.Group>
