@@ -13,8 +13,8 @@ import axios from "axios";
 function Navigation() {
   const navigate = useNavigate()
 
-  const [auth,setAuth] = useState(false)
-  const [isAdmin,setIsAdmin] = useState(false)
+  const [auth,setAuth] = useState()
+  const [isAdmin,setIsAdmin] = useState()
   const loginFunc = () =>{
     navigate('/login')
   }
@@ -22,36 +22,47 @@ function Navigation() {
     // console.log(isAdmin)
     isAdmin ? navigate('/admin') : navigate('/user')
   }
-  // useEffect(() => {
-  //   // Gantilah ini dengan logika sesuai aplikasi Anda
-    
-  // }, []);
+  
+  const signOutFunc = () => {
+    // Clear the authentication state and perform any necessary cleanup
+    setAuth(false);
+    setIsAdmin(false);
+    localStorage.removeItem('token');
+    navigate('/'); // Redirect to the home page or any other desired page
+  };
+  
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setAuth(true)
-      const token = localStorage.getItem('token')
-      const id = jwtDecode(token).id
-      const fetchUser = async () => {
+    const checkUser = async () => {
+      if (localStorage.getItem('token')) {
+        setAuth(true)
+        const token = localStorage.getItem('token')
+        const id = jwtDecode(token).id
         try {
-          const response = await axios.get(`https://kosdariz-6v25wnffuq-uc.a.run.app/penghuni/${id}`);
-          const user = response.data.data
-          if (user.noKamar !== undefined) {
-           setIsAdmin(false)
-          }else{
-            setIsAdmin(true)
+          // Coba untuk memanggil API pengguna
+          await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`);
+          // Jika sukses, berarti pengguna bukan admin
+          setIsAdmin(false);
+        } catch (userError) {
+          // Jika gagal, coba untuk memanggil API admin
+          try {
+            await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/admin/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+            // Jika sukses, berarti pengguna adalah admin
+            setIsAdmin(true);
+          } catch (adminError) {
+            // Jika juga gagal, berarti pengguna bukan admin
+            setAuth(false)
           }
-          
-        } catch (error) {
-          console.error('Error fetching data:', error);
         }
-      };
-      fetchUser()
-    }
-    else{
-      setAuth(false)
+      } else {
+        setAuth(false)
+      }
+    };
 
-    }
-    
+    checkUser();
   }, []);
   return (
     <Navbar expand="lg" className="bg-body-tertiary" style={{padding : '25px'}}>
@@ -72,10 +83,34 @@ function Navigation() {
     
         </Nav>
         {auth ? (
-                <Button id='BtnLogin' onClick={dashboardFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Profil</Button>
-              ) : (
-                <Button id='BtnLogin' onClick={loginFunc} style={{ width:'200px',borderRadius:'30px',backgroundColor:'white',border:'1px solid black',color:'black',fontSize:'20px'}}>Login</Button>
-              )}
+              <div className="d-flex gap-2">
+                <Button
+                  id='BtnProfile'
+                  onClick={dashboardFunc}
+                  className="flex-grow-1"
+                  style={{ borderRadius: '30px', backgroundColor: 'white', border: '1px solid black', color: 'black', fontSize: '20px' }}
+                >
+                  Profil
+                </Button>
+                <Button
+                  id='BtnSignOut'
+                  onClick={signOutFunc}
+                  className="flex-grow-1"
+                  style={{ borderRadius: '30px', backgroundColor: '#24AB70', color: 'white', fontSize: '20px' }}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Button
+                id='BtnLogin'
+                onClick={loginFunc}
+                className="flex-grow-1"
+                style={{ borderRadius: '30px', backgroundColor: 'white', border: '1px solid black', color: 'black', fontSize: '20px' }}
+              >
+                Login
+              </Button>
+            )}
       </Navbar.Collapse>
     </Container>
   </Navbar>

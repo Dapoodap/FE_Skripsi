@@ -30,7 +30,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchKamarList = async () => {
       try {
-        const response = await axios.get(`https://kosdariz-6v25wnffuq-uc.a.run.app/kamar/${id}`);
+        const response = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar/${id}`);
         setKamar(response.data.data);
         if (response.data.data.statusKamar === "isi") {
           nav('/room')
@@ -59,7 +59,7 @@ const Detail = () => {
 
   const nav = useNavigate();
   const booking = () => {
-    nav('/booking');
+    nav('/booking',{ state: { tambahanElektronik, hargaKamar: kamar.hargaKamar } });
   };
   return (
     <>

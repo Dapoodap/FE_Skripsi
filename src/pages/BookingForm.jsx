@@ -3,9 +3,14 @@ import { Button, Col, Container, Form, ListGroup, Row, Tab, Tabs } from 'react-b
 import Dana from '../components/payment/Dana'
 import Bni from '../components/payment/Bni'
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 
 function BookingForm() {
+  const { state } = useLocation();
+  const { tambahanElektronik, hargaKamar } = state;
+  console.log(tambahanElektronik)
+  console.log(hargaKamar)
   const [activeTab, setActiveTab] = useState(); // Tab aktif awal
 
   const handleTabChange = (tab) => {

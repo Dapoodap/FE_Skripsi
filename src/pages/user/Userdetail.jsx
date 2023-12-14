@@ -1,108 +1,214 @@
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Accordion, Alert, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import {
+  Accordion,
+  Alert,
+  Card,
+  Col,
+  Container,
+  ListGroup,
+  Modal,
+  Row,
+  Spinner,
+  Table,
+} from "react-bootstrap";
 
 function UserDetail() {
-  const faqData = [
-    {
-      question: 'Bagaimana cara mengganti foto profil?',
-      answer: 'Anda dapat mengganti foto profil di halaman Pengaturan Akun. Pilih opsi "Ganti Foto Profil" dan ikuti petunjuknya.',
-    },
-    {
-      question: 'Bagaimana cara mengubah kata sandi?',
-      answer: 'Untuk mengubah kata sandi, masuk ke halaman Pengaturan Akun dan pilih opsi "Ganti Kata Sandi". Isi formulir dengan informasi yang diminta.',
-    },
-    {
-      question: 'Apakah ada batasan jumlah posting yang dapat saya buat?',
-      answer: 'Tidak, saat ini tidak ada batasan jumlah posting yang dapat Anda buat. Silakan berbagi pengalaman dan cerita Anda sebanyak yang Anda inginkan!',
-    },
-    // Tambahkan pertanyaan dan jawaban lain sesuai kebutuhan
-  ];
-
   const adminNotification = {
-    title: 'Pemberitahuan Penting',
-    message: 'Halo Penghuni, terdapat pemeliharaan sistem pada hari Minggu, 25 Desember 2023, pukul 08.00-12.00 WIB. Harap bersiap-siap untuk kemungkinan gangguan layanan. Terima kasih.',
+    title: "Pemberitahuan Penting",
+    message:
+      "Halo Penghuni, terdapat pemeliharaan sistem pada hari Minggu, 25 Desember 2023, pukul 08.00-12.00 WIB. Harap bersiap-siap untuk kemungkinan gangguan layanan. Terima kasih.",
   };
 
-  const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [user, setUser] = useState([]);
+  const [kamar, setKamar] = useState([]);
+  const [laporan, setLaporan] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showSpinner, setShowSpinner] = useState(true);
 
   useEffect(() => {
     updateGreeting();
     const interval = setInterval(() => {
       setCurrentTime(new Date());
       updateGreeting();
-    }, 1000 * 60); // Perbarui setiap menit
+    }, 1000 * 60); // Update every minute
 
-    // Bersihkan interval pada unmount komponen
+    // Clear interval on component unmount
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const id = jwtDecode(token).id;
+
+        const userResponse = await axios.get(
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`
+        );
+        setUser(userResponse.data.data);
+        setKamar(userResponse.data.data.Kamar);
+        setLaporan(userResponse.data.data.Laporans);
+        setLoading(false);
+        setShowSpinner(false); // Hide the spinner modal // Set loading to false when data is fetched
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const updateGreeting = () => {
     const currentHour = currentTime.getHours();
 
     if (currentHour >= 5 && currentHour < 12) {
-      setGreeting('Selamat Pagi');
+      setGreeting("Selamat Pagi");
     } else if (currentHour >= 12 && currentHour < 18) {
-      setGreeting('Selamat Siang');
+      setGreeting("Selamat Siang");
     } else {
-      setGreeting('Selamat Malam');
+      setGreeting("Selamat Malam");
     }
   };
 
+  const faqData = [
+    {
+      question: "Bagaimana cara mengganti foto profil?",
+      answer:
+        'Anda dapat mengganti foto profil di halaman Pengaturan Akun. Pilih opsi "Ganti Foto Profil" dan ikuti petunjuknya.',
+    },
+    {
+      question: "Bagaimana cara mengubah kata sandi?",
+      answer:
+        'Untuk mengubah kata sandi, masuk ke halaman Pengaturan Akun dan pilih opsi "Ganti Kata Sandi". Isi formulir dengan informasi yang diminta.',
+    },
+    {
+      question: "Apakah ada batasan jumlah posting yang dapat saya buat?",
+      answer:
+        "Tidak, saat ini tidak ada batasan jumlah posting yang dapat Anda buat. Silakan berbagi pengalaman dan cerita Anda sebanyak yang Anda inginkan!",
+    },
+    // Add more FAQ items as needed
+  ];
+
   return (
     <>
-      <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
+    <Modal show={showSpinner} centered backdrop="static" keyboard={false}>
+        
+      </Modal>
+      <Card className="mb-4" style={{ backgroundColor: "#ECE3CE" }}>
         <Card.Body>
-          {/* Isi dengan informasi penghuni, foto profil, dsb. */}
           <Container fluid className="mt-4">
-            <Row>
-              <Col md={12} lg={8}>
-                {/* Sapaan dan penjelasan UserDashboard */}
-                <h1>{greeting}, penghuni!</h1>
-                <p>Ini adalah User Dashboard Anda. Temukan informasi penting dan kelola akun Anda di sini.</p>
+            {loading ? (
+              // Show spinner while data is being fetched
+              <button className="btn btn-primary" type="button" disabled>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            ) : (
+              <>
+              <Row>
+                <Col md={12} lg={8}>
+                  <h1>
+                    {greeting}, {user.nama}!
+                  </h1>
+                  <p>
+                    Ini adalah User Dashboard Anda. Temukan informasi penting
+                    dan kelola akun Anda di sini.
+                  </p>
 
-                {/* List Data Diri Penghuni */}
-                <Card className="mb-4">
-                  <Card.Header>Data Diri Penghuni</Card.Header>
-                  <Card.Body>
-                    <ListGroup>
-                      <ListGroup.Item>Nama: [Nama Penghuni]</ListGroup.Item>
-                      <ListGroup.Item>Email: [Email Penghuni]</ListGroup.Item>
-                      <ListGroup.Item>Nomor HP: [Nomor HP Penghuni]</ListGroup.Item>
-                      {/* Tambahkan informasi lain sesuai kebutuhan */}
-                    </ListGroup>
-                  </Card.Body>
-                </Card>
-              </Col>
+                  <Card className="mb-4">
+                    <Card.Header>Data Diri Penghuni</Card.Header>
+                    <Card.Body>
+                      <ListGroup>
+                        <ListGroup.Item>
+                          Nama : {user.nama}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          Nomor HP : {user.noHP}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          Alamat : {user.alamat}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          Kamar : kamar {kamar.tipeKamar} nomor {kamar.noKamar}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          Jenis Kelamin : {user.jenisKelamin}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-              {/* Konten di Sebelah Kanan */}
-              <Col md={12} lg={4}>
-                <Card className="mb-4">
-                  <Card.Header>Pemberitahuan Terkait Kos</Card.Header>
+                <Col md={12} lg={4}>
+                  <Card className="mb-4">
+                    <Card.Header>
+                      Pemberitahuan Terkait Kos
+                    </Card.Header>
+                    <Card.Body>
+                      <Alert variant="warning">
+                        <strong>{adminNotification.title}</strong>
+                        <p>{adminNotification.message}</p>
+                      </Alert>
+                    </Card.Body>
+                  </Card>
+                  <Card className="mb-4">
+                    <Card.Header>FAQ - Pertanyaan Umum</Card.Header>
+                    <Card.Body>
+                      <Accordion defaultActiveKey="0">
+                        {faqData.map((data, index) => (
+                          <Accordion.Item eventKey={index} key={index}>
+                            <Accordion.Header>
+                              {data.question}
+                            </Accordion.Header>
+                            <Accordion.Body>{data.answer}</Accordion.Body>
+                          </Accordion.Item>
+                        ))}
+                      </Accordion>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+              <Col>
+                <Card>
+                  <Card.Header>Laporan Penghuni</Card.Header>
                   <Card.Body>
-                    <Alert variant="warning">
-                      <strong>{adminNotification.title}</strong>
-                      <p>{adminNotification.message}</p>
-                    </Alert>
-                    {/* Isi dengan konten atau aksi tambahan */}
-                    <p>Anda dapat menambahkan konten atau aksi tambahan di sini sesuai kebutuhan Anda.</p>
-                  </Card.Body>
-                </Card>
-                <Card className="mb-4">
-                  <Card.Header>FAQ - Pertanyaan Umum</Card.Header>
-                  <Card.Body>
-                    <Accordion defaultActiveKey="0">
-                      {faqData.map((data, index) => (
-                        <Accordion.Item eventKey={index} key={index}>
-                          <Accordion.Header>{data.question}</Accordion.Header>
-                          <Accordion.Body>{data.answer}</Accordion.Body>
-                        </Accordion.Item>
-                      ))}
-                    </Accordion>
+                    {laporan.length === 0 ? (
+                      <p>Tidak ada laporan yang dibuat.</p>
+                    ) : (
+                      <Table striped bordered responsive>
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Tanggal Laporan</th>
+                            <th>Jenis Keluhan</th>
+                            <th>Deskripsi</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {laporan.map((lapor, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{lapor.TanggalLaporan}</td>
+                              <td>{lapor.JenisKeluhan}</td>
+                              <td>{lapor.DeskripsiKeluhan}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    )}
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
+              </>
+            )}
+
+            
           </Container>
         </Card.Body>
       </Card>
@@ -110,4 +216,4 @@ function UserDetail() {
   );
 }
 
-export default UserDetail;
+export default UserDetail

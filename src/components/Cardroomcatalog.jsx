@@ -17,7 +17,7 @@ function Cardroomcatalog() {
   useEffect(()=>{
     const fetchKamarList = async () => {
       try {
-        const response = await axios.get('https://kosdariz-6v25wnffuq-uc.a.run.app/kamar');
+        const response = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar');
         setKamarList(response.data.Data)
         // const gbr = response.data.Data
         // console.log(response.data.Data.noKamar)
@@ -63,7 +63,7 @@ function Cardroomcatalog() {
                   Kamar Tipe {kamar.tipeKamar} No {kamar.noKamar}
                 </Card.Title>
                 <Card.Text style={{ fontSize: '15px', fontWeight: '400', letterSpacing: '0.26px' }}>
-                  {kamar.deskripsiKamar}
+                  {kamar.deskripsiKamar.slice(0, 107)} ...
                 </Card.Text>
                 <strong>{formatCurrency(kamar.hargaKamar)}/Bulan</strong>
                 <br />
