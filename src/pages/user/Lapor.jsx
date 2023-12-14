@@ -5,6 +5,7 @@ import { Button, Card, Form, Toast } from "react-bootstrap";
 
 function Lapor() {
   const [iduser, setIduser] = useState('');
+  const [token, setToken] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({
     IdPelapor: '',
@@ -17,6 +18,7 @@ function Lapor() {
     const fetchUserList = async () => {
       try {
         const token = localStorage.getItem('token');
+        setToken(token)
         setIduser(jwtDecode(token).id);
         // Set the IdPelapor in the state
         setFormData((prevData) => ({
@@ -30,8 +32,9 @@ function Lapor() {
     };
 
     fetchUserList();
+    
   }, []);
-
+  // console.log(token)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -54,7 +57,7 @@ function Lapor() {
     // You can now use formData with the TanggalLaporan included to send data to the server
     console.log('Data yang akan dikirim:', formData);
     // Add your logic to send data using axios
-    axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor  ', formData)
+    axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor ',formData,{headers: {Authorization: token,},})
       .then(response => {
         console.log(response.data);
         setShowToast(true);

@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { Button, Container, Form, Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import '../App.css'; // Import a CSS file for additional styling
 
 function Loginpage() {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
@@ -26,70 +27,65 @@ function Loginpage() {
       setSuccessMessage('Login successful!');
       setTimeout(() => {
         setShowSuccess(false);
-        nav('/');
+        navigate('/');
       }, 2000);
     } catch (error) {
       setErrorMessage(error.response.data.message);
       setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 2000);
       console.error('Error logging in:', error.response.data);
     }
   };
 
   return (
-    <>
-      <Container fluid>
-        <h2>Kos Dariz</h2>
-      </Container>
+    <Container fluid className="login-page">
       <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-        <div className="w-100" style={{ maxWidth: '400px' }}>
-          <h1 className="text-center" style={{ fontWeight: '600', letterSpacing: '1.8px' }}>
-            LOGIN
-          </h1>
-          <p className="text-center">Yang dapat login hanya penghuni yang memiliki username dan password !</p>
+        <div className="login-form p-4">
+          <h1 className="text-center brand-name">Kos Dariz</h1>
+          <p className="text-center mb-4">Hanya penghuni dengan username dan password yang dapat masuk.</p>
           <Form onSubmit={handleLogin}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Username Penghuni</Form.Label>
+            <Form.Group controlId="formBasicEmail" className="mb-3">
               <Form.Control
                 type="username"
-                placeholder="Masukkan Username"
+                placeholder="Username Penghuni"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <Form.Text className="text-muted">Pastikan username yang anda miliki sudah benar</Form.Text>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+            <Form.Group controlId="formBasicPassword" className="mb-3">
               <Form.Control
                 type="password"
-                placeholder="Masukkan Password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button className="my-5" style={{ width: '100%' }} variant="primary" type="submit">
+            <Button className="my-3" variant="primary" type="submit" style={{ width: '100%' }}>
               Login
             </Button>
           </Form>
 
           {showError && (
-            <Alert variant="danger" onClose={() => setShowError(false)} dismissible>
+            <Alert variant="danger" onClose={() => setShowError(false)} dismissible className="mt-3">
               {errorMessage}
             </Alert>
           )}
 
           {showSuccess && (
-            <Alert variant="success" onClose={() => setShowSuccess(false)} dismissible className="fixed-top fixed-right">
+            <Alert variant="success" onClose={() => setShowSuccess(false)} dismissible className="mt-3">
               {successMessage}
             </Alert>
           )}
 
-          <div className="mt-2 text-center">
-            <a href="/adminLogin"> Kembali Ke Halaman Awal</a>
+          <div className="text-center mt-4">
+            <Link to="/">Kembali ke Halaman Awal</Link>
           </div>
         </div>
       </Container>
-    </>
+    </Container>
   );
 }
 

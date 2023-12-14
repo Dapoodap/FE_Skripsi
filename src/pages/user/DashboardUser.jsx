@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Container, ListGroup, Offcanvas, Row } from 'react-bootstrap';
 import { List } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,8 @@ import Lapor from './Lapor';
 import Bayarsewa from './Bayarsewa';
 import Userdetail from './Userdetail';
 import Usersetting from './Usersetting';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function DashboardUser() {
   const [selectedMenu, setSelectedMenu] = React.useState('informasi-penghuni');
@@ -17,11 +19,57 @@ function DashboardUser() {
     setSelectedMenu(menuKey);
     setShowOffcanvas(false); // Close offcanvas after menu selection on mobile screen
   };
-
+  function isTokenExpired(token) {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000); // Waktu sekarang dalam detik
+  
+    return decodedToken.exp < currentTime;
+  }
   const handleBackToRoot = () => {
     navigate('/');
   };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
 
+    if (!token) {
+      // Redirect to the home page if there is no token
+      navigate('/');
+      return;
+    }
+    if (isTokenExpired(token)) {
+      alert("Your session has expired. Please log in again.")
+      navigate('/')
+    }
+    try {
+      // Attempt to decode the token
+      const decodedToken = jwtDecode(token);
+      const {id} = decodedToken
+
+      // You can perform additional validation if needed
+      // For example, check expiration, roles, etc.
+      if (!decodedToken) {
+        console.error('Invalid token detected. Redirecting to the home page.');
+        navigate('/');
+      }
+      const chechkUser = async () =>{
+        try {
+          await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`, {
+              headers: {
+                Authorization: token,
+                    },
+              });
+              
+        } catch (error) {
+          navigate('/')
+        }
+      }
+      chechkUser()
+    } catch (error) {
+      // If decoding fails, the token is invalid
+      console.error('Invalid token detected. Redirecting to the home page.');
+      navigate('/');
+    }
+  }, [navigate]);
   return (
     <>
       <Container fluid className="mt-4">

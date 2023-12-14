@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button, Card, Col, Form, Row, Alert, Toast } from "react-bootstrap";
 
 function Usersetting() {
+  const [tokenize,setTokenize] = useState('')
   const [userData, setUserData] = useState({
     id: 1, // Replace with the actual user ID
     nama: "",
@@ -18,9 +19,10 @@ function Usersetting() {
     const fetchUserById = async () => {
       try {
         const token = localStorage.getItem("token");
+        setTokenize(token)
         const idUser = jwtDecode(token).id;
         const userResponse = await axios.get(
-          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${idUser}`
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${idUser}`,{headers: {Authorization: token,},}
         );
         setUserData(userResponse.data.data); // Assuming the API response contains the user data
       } catch (error) {
@@ -61,7 +63,7 @@ function Usersetting() {
           noHp: userData.noHP,
           alamat: userData.alamat,
           jenisKelamin: userData.jenisKelamin,
-        }
+        },{headers: {Authorization: tokenize,},}
       );
 
       setShowDataDiriToast(true);
@@ -86,7 +88,7 @@ function Usersetting() {
           `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/change/${idUser}`,
           {
             password: passwordData.confirmPassword,
-          }
+          },{headers: {Authorization: tokenize,},}
         );
 
         setShowPasswordToast(true);

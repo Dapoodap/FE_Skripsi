@@ -1,29 +1,18 @@
 
+import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni, penghuni }) => {
+  const [editedPenghuni, setEditedPenghuni] = useState({
+    nama: index.nama,
+    noKamar: index.noKamar || "",
+    noHP: index.noHP || "",
+    username: index.username || "",
+    password: index.isChange ? "sudah ganti password" : "belum ganti password",
+  });
+  console.log(index)
 
-const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni }) => {
-//   const [editedPenghuni, setEditedPenghuni] = useState({
-//     nama: penghuni.nama,
-//     nomorKamar: penghuni.nomorKamar,
-//     nomorHP: penghuni.hp,
-//     username: penghuni.username,
-//   });
-console.log(index)
-
-  const handleResetPassword = () => {
-    // Lakukan operasi reset password (misalnya, kirim ke server)
-    // ...
-    alert('Password direset!');
-  };
-
-  const handleEditDetailPenghuni = () => {
-    // Lakukan operasi edit detail penghuni (misalnya, kirim ke server)
-    // ...
-    
-    // Setelah operasi edit, tutup modal
-    handleClose();
-  };
-
+  // ...
+  
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -35,8 +24,8 @@ console.log(index)
             <Form.Label>Nama Penghuni</Form.Label>
             <Form.Control
               type="text"
-            //   value={editedPenghuni.nama}
-            //   onChange={(e) => setEditedPenghuni({ ...editedPenghuni, nama: e.target.value })}
+              value={editedPenghuni.nama}
+              disabled
             />
           </Form.Group>
 
@@ -44,8 +33,8 @@ console.log(index)
             <Form.Label>Nomor Kamar</Form.Label>
             <Form.Control
               type="text"
-            //   value={editedPenghuni.nomorKamar}
-            //   onChange={(e) => setEditedPenghuni({ ...editedPenghuni, nomorKamar: e.target.value })}
+              value={editedPenghuni.noKamar}
+              disabled
             />
           </Form.Group>
 
@@ -53,8 +42,8 @@ console.log(index)
             <Form.Label>Nomor HP</Form.Label>
             <Form.Control
               type="text"
-            //   value={editedPenghuni.nomorHP}
-            //   onChange={(e) => setEditedPenghuni({ ...editedPenghuni, nomorHP: e.target.value })}
+              value={editedPenghuni.noHP}
+              disabled
             />
           </Form.Group>
 
@@ -62,8 +51,16 @@ console.log(index)
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-            //   value={editedPenghuni.username}
-            //   onChange={(e) => setEditedPenghuni({ ...editedPenghuni, username: e.target.value })}
+              value={editedPenghuni.username}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group controlId="formUsername">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="text"
+              value={editedPenghuni.password}
+              disabled
             />
           </Form.Group>
         </Form>
@@ -72,8 +69,11 @@ console.log(index)
         <Button variant="secondary" onClick={handleClose}>
           Tutup
         </Button>
-        <Button variant="primary" onClick={handleEditDetailPenghuni}>
-          Simpan Perubahan
+        <Button variant="warning" onClick={() => handleEditPenghuni(index, editedPenghuni)}>
+          Reset Password
+        </Button>
+        <Button variant="danger" onClick={() => handleEditPenghuni(index, editedPenghuni)}>
+          Hapus Penghuni
         </Button>
       </Modal.Footer>
     </Modal>

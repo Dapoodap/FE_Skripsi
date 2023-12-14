@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 
 const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
-//   const [nama, setNama] = useState('');
-//   const [nomorKamar, setNomorKamar] = useState('');
+  const [nama, setNama] = useState('');
+  const [noKamar, setNoKamar] = useState('');
+  const [TanggalMasuk, setTanggalMasuk] = useState('');
+  const [noHP, setnoHP] = useState('');
+  const [alamat, setAlamat] = useState('');
+  const [jenisKelamin, setjenisKelamin] = useState('');
+  const [BiayaTambahan, setBiayaTambahan] = useState('');
+  const [listKamar, setListKamar] = useState([]);
+
+  useEffect(() => {
+    const fetchKamar = async () => {
+      try {
+        const response = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar');
+        const kamarData = response.data.Data;
+        setListKamar(kamarData);
+      } catch (error) {
+        console.error('Error fetching kamar data:', error);
+      }
+    };
+
+    fetchKamar();
+  }, []);
 
   const handleTambahPenghuni = () => {
     // Lakukan operasi tambah penghuni (misalnya, kirim ke server)
@@ -11,8 +32,6 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
     
     // Setelah operasi tambah, tutup modal dan reset formulir
     handleClose();
-    // setNama('');
-    // setNomorKamar('');
   };
 
   return (
@@ -27,56 +46,78 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
             <Form.Control
               type="text"
               placeholder="Masukkan nama penghuni"
-            //   value={nama}
-            //   onChange={(e) => setNama(e.target.value)}
+              value={nama}
+              onChange={(e) => setNama(e.target.value)}
             />
           </Form.Group>
 
           <Form.Group controlId="formNomorKamar">
             <Form.Label>Nomor Kamar</Form.Label>
             <Form.Control
-              type="number"
-              placeholder="Masukkan nomor kamar"
-            //   value={nomorKamar}
-            //   onChange={(e) => setNomorKamar(e.target.value)}
-            />
+              as="select"
+              value={noKamar}
+              onChange={(e) => setNoKamar(e.target.value)}
+            >
+              <option value="">Pilih Nomor Kamar</option>
+              {listKamar.map((kamar) => (
+                <option key={kamar.id} value={kamar.noKamar} disabled={kamar.statusKamar === 'isi'}>
+                  Kamar tipe {kamar.tipeKamar} {kamar.noKamar} {kamar.status === 'isi' && '(Terisi)'}
+                </option>
+              ))}
+            </Form.Control>
           </Form.Group>
-          <Form.Group controlId="formNomorHP">
-            <Form.Label>Nomor HP</Form.Label>
+          <Form.Group controlId="formnoHP">
+            <Form.Label>No Handphone (WA)</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Masukkan nomor HP"
-            //   value={nomorKamar}
-            //   onChange={(e) => setNomorKamar(e.target.value)}
+              placeholder="Masukkan no hp penghuni"
+              value={noHP}
+              onChange={(e) => setnoHP(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="formTanggalMasuk">
-            <Form.Label>Tanggal Masuk</Form.Label>
+          <Form.Group controlId="formAlamat">
+            <Form.Label>Alamat KTP</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Masukkan alamat sesuai ktp"
+              value={alamat}
+              onChange={(e) => setAlamat(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formTanggal">
+            <Form.Label>Tanggal Masuk Awal</Form.Label>
             <Form.Control
               type="date"
-              placeholder="masuk kapan "
-            //   value={nomorKamar}
-            //   onChange={(e) => setNomorKamar(e.target.value)}
+              placeholder="Masukkan tanggal masuk awal"
+              value={TanggalMasuk}
+              onChange={(e) => setTanggalMasuk(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="formUsername">
-            <Form.Label>Username</Form.Label>
+          <Form.Group controlId="formJenisKelamin">
+            <Form.Label>Jenis Kelamin</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="KM_101"
-            //   value={nomorKamar}
-            //   onChange={(e) => setNomorKamar(e.target.value)}
-            />
+              as="select"
+              value={jenisKelamin}
+              onChange={(e) => setjenisKelamin(e.target.value)}
+            >
+              <option disabled>Pilih Jenis Kelamin</option>
+              <option value="laki-laki">Laki-laki</option>
+              <option value="perempuan">Perempuan</option>
+            </Form.Control>
           </Form.Group>
-          <Form.Group controlId="formPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group controlId="formtambahan biaya">
+            <Form.Label>Tambahan Biaya</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="barukm101"
-            //   value={nomorKamar}
-            //   onChange={(e) => setNomorKamar(e.target.value)}
+              type="number"
+              placeholder="Masukkan tambahan biaya"
+              value={BiayaTambahan}
+              onChange={(e) => setBiayaTambahan(e.target.value)}
             />
           </Form.Group>
+
+          {/* Sisipkan bagian form lainnya sesuai kebutuhan Anda */}
+          {/* ... */}
+
         </Form>
       </Modal.Body>
       <Modal.Footer>

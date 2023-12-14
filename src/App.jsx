@@ -26,8 +26,8 @@ function App() {
     <Route path='/detail/:id' element={<Detail/>}/> 
     <Route path='/booking' element={<BookingForm/>}/> 
     <Route element={<PrivateRoutes/>}>
-      <Route path='/user' element={<DashboardUser/>}/> 
-      <Route path='/admin' element={<DashboardAdmin/>}/> 
+      <Route path='/user/:id' element={<DashboardUser/>}/> 
+      <Route path='/admin/:id' element={<DashboardAdmin/>}/> 
     </Route>
     
    </Routes>

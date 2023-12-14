@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 function Bayarsewa() {
   const [activeTab, setActiveTab] = useState();
   const [showToast, setShowToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
   const [nama,setNama] = useState()
   const [bulan,setBulan] = useState()
   const [file,setFile] = useState(null)
@@ -25,18 +26,23 @@ function Bayarsewa() {
     try {
       const token = localStorage.getItem('token')
       const id = jwtDecode(token).id
-      const response = await fetch(`https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/${id}`, {
+      const response = await fetch(`https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/${id}`,{
         method: 'POST',
         body: formData,
+        headers: {
+          Authorization: token,
+        }
 
       });
 
       if (!response.ok) {
+        console.log(token)
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       setShowToast(true);
     } catch (error) {
+      setShowErrorToast(true);
       console.error('Error:', error);
     }
   };
@@ -45,7 +51,7 @@ function Bayarsewa() {
       try {
         const token = localStorage.getItem('token')
         const id = jwtDecode(token).id
-        const userResponse = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`);
+        const userResponse = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`,{headers: {Authorization: token,},});
         setNama(userResponse.data.data.nama)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -144,6 +150,22 @@ function Bayarsewa() {
           <strong className="me-auto">Notification</strong>
         </Toast.Header>
         <Toast.Body>Pembayaran {bulan} berhasil dikirim, silahkan tunggu admin meninjau.</Toast.Body>
+      </Toast>
+      <Toast
+        show={showErrorToast}
+        onClose={() => setShowErrorToast(false)}
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">Notification</strong>
+        </Toast.Header>
+        <Toast.Body>
+          Terjadi kesalahan. Silahkan coba lagi atau hubungi admin jika masalah berlanjut.
+        </Toast.Body>
       </Toast>
     </>
   );

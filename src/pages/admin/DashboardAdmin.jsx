@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Col, Container, ListGroup, Offcanvas, Row } from 'react-bootstrap'
 import { List } from 'react-bootstrap-icons';
 import DetailAdmin from './DetailAdmin';
@@ -6,15 +6,64 @@ import Datapenghuni from './Datapenghuni';
 import Reviewbukti from './Reviewbukti';
 import Reviewlaporan from './Reviewlaporan';
 import Buatpengumuman from './Buatpengumuman';
+import { useNavigate, useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function DashboardAdmin() {
+  const {id} = useParams()
     const [selectedMenu, setSelectedMenu] = useState('informasi-penghuni');
     const [showOffcanvas, setShowOffcanvas] = useState(false);
   
+
     const handleMenuClick = (menuKey) => {
       setSelectedMenu(menuKey);
       setShowOffcanvas(false); // Menutup offcanvas setelah menu dipilih pada layar handphone
     };
+    function isTokenExpired(token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000); // Waktu sekarang dalam detik
+    
+      return decodedToken.exp < currentTime;
+    }
+    const navigate = useNavigate()
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      try {
+        // Attempt to decode the token
+        
+        if (isTokenExpired(token)) {
+          alert("Your session has expired. Please log in again.")
+          navigate('/')
+        }
+        const decodedToken = jwtDecode(token);
+        // You can perform additional validation if needed
+        // For example, check expiration, roles, etc.
+        if (!decodedToken) {
+          console.error('Invalid token detected. Redirecting to the home page.');
+          navigate('/');
+        }
+        const {id} = decodedToken
+        const chechkUser = async () =>{
+          try {
+            await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/admin/${id}`, {
+                headers: {
+                  Authorization: token,
+                      },
+                });
+            
+          } catch (error) {
+            navigate('/')
+          }
+        }
+
+        chechkUser()
+      } catch (error) {
+        // If decoding fails, the token is invalid
+        console.error('Invalid token detected. Redirecting to the home page.');
+        navigate('/');
+      }
+    }, [navigate]);
   return (
     <>
     <Container fluid className="mt-4" >
@@ -121,7 +170,7 @@ function DashboardAdmin() {
 
           {/* Konten */}
           {selectedMenu === 'informasi-penghuni' && (
-            <DetailAdmin/>
+            <DetailAdmin id={id}/>
           )}
 
           {selectedMenu === 'data-penghuni' && (

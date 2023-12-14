@@ -15,7 +15,8 @@ function Sidebardashboaruser() {
       try {
         const token = localStorage.getItem('token');
         const id = jwtDecode(token).id;
-        const userResponse = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`);
+        const userResponse = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`,{headers: {Authorization: token,},}
+        );
         
         setUser(userResponse.data.data);
         setDataPembayaran(JSON.parse(userResponse.data.data.dataPembayaran));

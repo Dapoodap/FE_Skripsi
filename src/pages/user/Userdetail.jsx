@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import {
   Accordion,
   Alert,
+  Badge,
   Card,
   Col,
   Container,
   ListGroup,
   Modal,
   Row,
-  Spinner,
   Table,
 } from "react-bootstrap";
 
@@ -47,11 +47,12 @@ function UserDetail() {
         const id = jwtDecode(token).id;
 
         const userResponse = await axios.get(
-          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`,{headers: {Authorization: token,},}
         );
         setUser(userResponse.data.data);
         setKamar(userResponse.data.data.Kamar);
         setLaporan(userResponse.data.data.Laporans);
+        console.log(userResponse.data.data.Laporans);
         setLoading(false);
         setShowSpinner(false); // Hide the spinner modal // Set loading to false when data is fetched
       } catch (error) {
@@ -73,7 +74,15 @@ function UserDetail() {
       setGreeting("Selamat Malam");
     }
   };
-
+  function formatISODate(isoDateString) {
+    const isoDate = new Date(isoDateString);
+  
+    const year = isoDate.getFullYear();
+    const month = (isoDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = isoDate.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
   const faqData = [
     {
       question: "Bagaimana cara mengganti foto profil?",
@@ -96,7 +105,7 @@ function UserDetail() {
   return (
     <>
     <Modal show={showSpinner} centered backdrop="static" keyboard={false}>
-        
+    
       </Modal>
       <Card className="mb-4" style={{ backgroundColor: "#ECE3CE" }}>
         <Card.Body>
@@ -187,15 +196,19 @@ function UserDetail() {
                             <th>Tanggal Laporan</th>
                             <th>Jenis Keluhan</th>
                             <th>Deskripsi</th>
+                            <th>Status</th>
                           </tr>
                         </thead>
+                        {/* lapor.TanggalLaporan */}
                         <tbody>
+                          
                           {laporan.map((lapor, index) => (
                             <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{lapor.TanggalLaporan}</td>
+                              <td>{lapor.id}</td>
+                              <td>{formatISODate(lapor.TanggalLaporan)}</td>
                               <td>{lapor.JenisKeluhan}</td>
                               <td>{lapor.DeskripsiKeluhan}</td>
+                              <td>{lapor.StatusLaporan ? (<Badge className='mx-2' bg="success">Solved</Badge>):(<Badge className='mx-2' bg="warning" text="dark">Pending</Badge>)}</td>
                             </tr>
                           ))}
                         </tbody>

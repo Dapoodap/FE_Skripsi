@@ -1,82 +1,159 @@
-import { useState } from "react";
-import { Badge, Button, Card, Table } from "react-bootstrap"
-import ReviewBuktiPembayaranModal from "./ReviewBuktiPembayaranModal";
+import { useEffect, useState } from 'react';
+import { Badge, Button, Card, Table } from 'react-bootstrap';
+import axios from 'axios';
+import ReviewBuktiPembayaranModal from './ReviewBuktiPembayaranModal';
+// import ReviewBuktiPembayaranModal from "./ReviewBuktiPembayaranModal";
 
 function Reviewbukti() {
   const [showModal, setShowModal] = useState(false);
+  const [selectedID, setSelectedID] = useState([]);
+  const [buktiPembayarandp, setBuktiPembayarandp] = useState([]);
+  const [buktiPembayaraninv, setBuktiPembayaraninv] = useState([]); // Pastikan sudah ada state untuk menyimpan data bukti pembayaran
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-    const [buktiPembayaran, setBuktiPembayaran] = useState([
-        { id: 1, nomorInvoice: 'INV-001', namaPengirim: 'John Doe', tanggal: '2023-01-15',kategori:'bayar-sewa',status:'pending' },
-        { id: 2, nomorInvoice: 'INV-002', namaPengirim: 'Jane Doe', tanggal: '2023-02-20',kategori:'bayar-DP',status:'approve' },
-        { id: 3, nomorInvoice: 'INV-004', namaPengirim: 'Jsoee Doe', tanggal: '2023-02-23',kategori:'bayar-DP',status:'decline' },
-        // ... tambahkan data bukti pembayaran lainnya
-      ]);
+  const handleShowModal = (bukti) => {
+    setSelectedID(bukti);
+    setShowModal(true);
+  };
 
-      const handleReview = (id) => {
-        // Logika untuk meninjau bukti pembayaran
-        console.log('Review bukti pembayaran dengan id:', id);
-      };
-    
+  const handleCloseModal = () => {
+    setSelectedID(null);
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        // Fetch admin data
+        const invresponse = await axios.get(
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/inv`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        const dpresponse = await axios.get(
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setBuktiPembayaraninv(invresponse.data.Data);
+        console.log(dpresponse.data.Data);
+        setBuktiPembayarandp(dpresponse.data.Data)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
-    <ReviewBuktiPembayaranModal
+      <ReviewBuktiPembayaranModal
         show={showModal}
         handleClose={handleCloseModal}
-        buktiPembayaran={buktiPembayaran}
+        idinvoice={selectedID}
       />
-        <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
-            <Card.Body>
-              {/* Isi dengan informasi penghuni, foto profil, dsb. */}
-              <div className="table-responsive">
-              <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nomor Invoice</th>
-            <th>Nama Pengirim</th>
-            <th>Tanggal</th>
-            <th>Kategori</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {buktiPembayaran.map((bukti, index) => (
-            <tr key={index}>
-              <td>{bukti.id}</td>
-              <td>{bukti.nomorInvoice}</td>
-              <td>{bukti.namaPengirim}</td>
-              <td>{bukti.tanggal}</td>
-              <td>{bukti.kategori}</td>
-              <td>{(() => {
-                    switch (bukti.status) {
-                      case 'approve':
-                        return (<Badge bg="success" text="dark">Disetujui</Badge>);
-                      case 'decline':
-                        return (<Badge bg="danger" text="dark">Gagal</Badge>);
-                      default:
-                        return (<Badge bg="warning" text="dark">Pending</Badge>);
-                    }
-                  })()
-                }</td>
-              <td>
-                <Button variant="primary" onClick={handleShowModal}>
-                  Review
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-                </Table>
-    </div>
-            </Card.Body>
-        </Card>
+      <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
+        <Card.Body>
+          <div className="table-responsive">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Nomor Invoice</th>
+                  <th>Nama Pengirim</th>
+                  <th>Bulan</th>
+                  <th>Kamar</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {buktiPembayaraninv.map((bukti, index) => (
+                  <tr key={index}>
+                    {/* Kolom data bukti pembayaran */}
+                    <td>{bukti.nomorInvoice}</td>
+                    <td>{bukti.nama}</td>
+                    <td>{bukti.bulan}</td>
+                    <td>kamar {bukti.Penghuni.noKamar}</td>
+                    <td>
+                      {(() => {
+                        switch (bukti.status) {
+                          case 'approve':
+                            return <Badge bg="success" text="dark">Disetujui</Badge>;
+                          case 'decline':
+                            return <Badge bg="danger" text="dark">Gagal</Badge>;
+                          default:
+                            return <Badge bg="warning" text="dark">Pending</Badge>;
+                        }
+                      })()}
+                    </td>
+                    <td>
+                      <Button variant="primary" onClick={() => handleShowModal(bukti.nomorInvoice)}>
+                        Review
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Card.Body>
+      </Card>
+      <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
+        <Card.Body>
+          <div className="table-responsive">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Nomor Invoice</th>
+                  <th>Nama Pengirim</th>
+                  <th>Tanggal</th>
+                  <th>Kategori</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {buktiPembayarandp.map((bukti, index) => (
+                  <tr key={index}>
+                    {/* Kolom data bukti pembayaran */}
+                    <td>{bukti.nomorInvoice}</td>
+                    <td>{bukti.namaPengirim}</td>
+                    <td>{bukti.tanggal}</td>
+                    <td>{bukti.kategori}</td>
+                    <td>
+                      {(() => {
+                        switch (bukti.status) {
+                          case 'approve':
+                            return <Badge bg="success" text="dark">Disetujui</Badge>;
+                          case 'decline':
+                            return <Badge bg="danger" text="dark">Gagal</Badge>;
+                          default:
+                            return <Badge bg="warning" text="dark">Pending</Badge>;
+                        }
+                      })()}
+                    </td>
+                    <td>
+                    <Button variant="primary" onClick={() => handleShowModal(bukti.nomorInvoice)}>
+                        Review
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Card.Body>
+      </Card>
     </>
-  )
+  );
 }
 
-export default Reviewbukti
-
-{/*  */}
+export default Reviewbukti;

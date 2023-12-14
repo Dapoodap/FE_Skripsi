@@ -17,7 +17,13 @@ function Cardroomcatalog() {
   useEffect(()=>{
     const fetchKamarList = async () => {
       try {
-        const response = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar');
+        const token = localStorage.getItem('token')
+        const response = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar',{
+          headers: {
+            Authorization: token,
+          },
+        }
+        );
         setKamarList(response.data.Data)
         // const gbr = response.data.Data
         // console.log(response.data.Data.noKamar)
