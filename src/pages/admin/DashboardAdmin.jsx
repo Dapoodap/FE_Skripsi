@@ -14,8 +14,11 @@ function DashboardAdmin() {
   const {id} = useParams()
     const [selectedMenu, setSelectedMenu] = useState('informasi-penghuni');
     const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const nav = useNavigate()
   
-
+    const handleBackToRoot = () => {
+      navigate('/');
+    };
     const handleMenuClick = (menuKey) => {
       setSelectedMenu(menuKey);
       setShowOffcanvas(false); // Menutup offcanvas setelah menu dipilih pada layar handphone
@@ -167,7 +170,9 @@ function DashboardAdmin() {
           >
             <List size={20} />
           </button>
-
+          <button className="btn btn-secondary m-2" onClick={handleBackToRoot}>
+              Back to Home
+            </button>
           {/* Konten */}
           {selectedMenu === 'informasi-penghuni' && (
             <DetailAdmin id={id}/>

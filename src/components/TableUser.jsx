@@ -19,7 +19,7 @@ function Sidebardashboaruser() {
         );
         
         setUser(userResponse.data.data);
-        setDataPembayaran(JSON.parse(userResponse.data.data.dataPembayaran));
+        setDataPembayaran(JSON.parse(JSON.parse(userResponse.data.data.dataPembayaran)));
         setLoading(false);
         setShowSpinner(false); 
         const dateObject = new Date(userResponse.data.data.TanggalMasuk);
@@ -56,7 +56,7 @@ function Sidebardashboaruser() {
             </tr>
           </thead>
           <tbody>
-            {dataPembayaran.map((item, index) => (
+            {Array.isArray(dataPembayaran) && dataPembayaran.map((item, index) => (
               <tr key={index}>
                 <td style={{ backgroundColor: item.status ? '#4caf50' : '#ff9800' }}>{item.bulan}</td>
                 <td style={{ backgroundColor: item.status ? '#4caf50' : '#ff9800' }}>{item.status ? 'Lunas' : 'Belum Lunas'}</td>

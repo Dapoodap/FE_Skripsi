@@ -46,6 +46,7 @@ function Navigation() {
         if (isTokenExpired(token)) {
           alert("Your session has expired. Please log in again.")
           setAuth(false)
+          localStorage.removeItem('token')
         }
         const id = jwtDecode(token).id;
         setId(id)

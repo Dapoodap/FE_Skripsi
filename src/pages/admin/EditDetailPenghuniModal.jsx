@@ -2,14 +2,14 @@
 import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni, penghuni }) => {
+    
   const [editedPenghuni, setEditedPenghuni] = useState({
-    nama: index.nama,
-    noKamar: index.noKamar || "",
-    noHP: index.noHP || "",
-    username: index.username || "",
-    password: index.isChange ? "sudah ganti password" : "belum ganti password",
+    nama: index?.nama || "",
+    noKamar: index?.noKamar || "",
+    noHP: index?.noHP || "",
+    username: index?.username || "",
+    password: index?.isChange ? "sudah ganti password" : "belum ganti password",
   });
-  console.log(index)
 
   // ...
   

@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-function ReviewLaporanModal({ show, handleClose, laporan, handleSolved }) {
-  const [balasan, setBalasan] = useState('');
-
-  const handleBalasanChange = (event) => {
-    setBalasan(event.target.value);
-  };
-
+function ReviewLaporanModal({ show, handleClose, laporanid }) {
+  const [laporan, setLaporan] = useState();
+  
+  // const handleBalasanChange = (event) => {
+  //   setBalasan(event.target.value);
+  // };
+  console.log(laporanid)
+useEffect(()=>{
+  const fetchLaporan = async () =>{
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor/${laporanid}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setLaporan(response.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fetchLaporan()
+},[])
+console.log(laporan)
   const handleSubmit = () => {
     // Proses pengiriman balasan dan pembaruan status ke server
     // Misalnya, Anda bisa menggunakan fungsi handleSolved yang dilewatkan dari parent component
@@ -22,10 +40,10 @@ function ReviewLaporanModal({ show, handleClose, laporan, handleSolved }) {
       <Modal.Header closeButton>
         <Modal.Title>Review Laporan</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <p><strong>Judul Laporan:</strong> </p>
-        <p><strong>Oleh:</strong> </p>
+      {laporan ? (<Modal.Body>
+        <p><strong>Judul Laporan: {laporan.JenisKeluhan}</strong> </p>
         <p><strong>Isi Laporan:</strong></p>
+        <p><strong>{laporan.DeskripsiKeluhan}</strong></p>
 
         {/* Form untuk memberi balasan */}
         <Form.Group controlId="balasan">
@@ -38,7 +56,7 @@ function ReviewLaporanModal({ show, handleClose, laporan, handleSolved }) {
             // onChange={handleBalasanChange}
           />
         </Form.Group>
-      </Modal.Body>
+      </Modal.Body>):<>Loading ...</>}
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Tutup

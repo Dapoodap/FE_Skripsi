@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Badge, Button, Card, Table } from 'react-bootstrap';
 import axios from 'axios';
 import ReviewBuktiPembayaranModal from './ReviewBuktiPembayaranModal';
+import moment from 'moment';
 // import ReviewBuktiPembayaranModal from "./ReviewBuktiPembayaranModal";
 
 function Reviewbukti() {
@@ -55,11 +56,11 @@ function Reviewbukti() {
 
   return (
     <>
-      <ReviewBuktiPembayaranModal
+      {showModal ? <ReviewBuktiPembayaranModal
         show={showModal}
         handleClose={handleCloseModal}
         idinvoice={selectedID}
-      />
+      />: <></>}
       <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
         <Card.Body>
           <div className="table-responsive">
@@ -69,6 +70,7 @@ function Reviewbukti() {
                   <th>Nomor Invoice</th>
                   <th>Nama Pengirim</th>
                   <th>Bulan</th>
+                  <th>Kategori</th>
                   <th>Kamar</th>
                   <th>Status</th>
                   <th>Aksi</th>
@@ -81,6 +83,7 @@ function Reviewbukti() {
                     <td>{bukti.nomorInvoice}</td>
                     <td>{bukti.nama}</td>
                     <td>{bukti.bulan}</td>
+                    <td>Bayar Sewa</td>
                     <td>kamar {bukti.Penghuni.noKamar}</td>
                     <td>
                       {(() => {
@@ -116,6 +119,7 @@ function Reviewbukti() {
                   <th>Nama Pengirim</th>
                   <th>Tanggal</th>
                   <th>Kategori</th>
+                  <th>Kamar</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
@@ -125,9 +129,10 @@ function Reviewbukti() {
                   <tr key={index}>
                     {/* Kolom data bukti pembayaran */}
                     <td>{bukti.nomorInvoice}</td>
-                    <td>{bukti.namaPengirim}</td>
-                    <td>{bukti.tanggal}</td>
-                    <td>{bukti.kategori}</td>
+                    <td>{bukti.nama}</td>
+                    <td>{moment.utc(bukti.tanggal).format('MM/DD/YY')}</td>
+                    <td>bayar dp</td>
+                    <td>{bukti.noKamar}</td>
                     <td>
                       {(() => {
                         switch (bukti.status) {
