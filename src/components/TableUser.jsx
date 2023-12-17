@@ -19,7 +19,7 @@ function Sidebardashboaruser() {
         );
         
         setUser(userResponse.data.data);
-        setDataPembayaran(JSON.parse(JSON.parse(userResponse.data.data.dataPembayaran)));
+        setDataPembayaran(JSON.parse(userResponse.data.data.dataPembayaran));
         setLoading(false);
         setShowSpinner(false); 
         const dateObject = new Date(userResponse.data.data.TanggalMasuk);

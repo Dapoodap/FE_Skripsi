@@ -3,15 +3,17 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
+  const [postPenghuni,setPostpenghuni] = useState()
   const [nama, setNama] = useState('');
   const [noKamar, setNoKamar] = useState('');
   const [TanggalMasuk, setTanggalMasuk] = useState('');
   const [noHP, setnoHP] = useState('');
   const [alamat, setAlamat] = useState('');
   const [jenisKelamin, setjenisKelamin] = useState('');
-  const [BiayaTambahan, setBiayaTambahan] = useState('');
-  const [listKamar, setListKamar] = useState([]);
+  const [BarangBawaan, setBarangBawaan] = useState('');
 
+  const [listKamar, setListKamar] = useState([]);
+  
   useEffect(() => {
     const fetchKamar = async () => {
       try {
@@ -25,15 +27,65 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
 
     fetchKamar();
   }, []);
+  const handleCheckboxChange = (barang) => {
+    // Salin array BarangBawaan ke array baru
+    const updatedBarangBawaan = [...BarangBawaan];
 
-  const handleTambahPenghuni = () => {
-    // Lakukan operasi tambah penghuni (misalnya, kirim ke server)
-    // ...
+    // Periksa apakah barang sudah ada di dalam array
+    const isBarangSelected = updatedBarangBawaan.includes(barang);
+
+    // Jika sudah ada, hapus dari array
+    if (isBarangSelected) {
+      const index = updatedBarangBawaan.indexOf(barang);
+      updatedBarangBawaan.splice(index, 1);
+    } else {
+      // Jika belum ada, tambahkan ke array
+      updatedBarangBawaan.push(barang);
+    }
+
+    // Perbarui state BarangBawaan
+    setBarangBawaan(updatedBarangBawaan);
+  };
+  const handleTambahPenghuni = async() => {
+    try {
+      const token = localStorage.getItem('token')
+      const BiayaTambahan = BarangBawaan.length * 200000
+      
+      const response = await axios.post(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni`,
+        {
+          nama,
+          noKamar,
+          noHP,
+          TanggalMasuk,
+          alamat,
+          jenisKelamin,
+          BiayaTambahan,
+          BarangBawaan : JSON.stringify(BarangBawaan)
+        },  // Request body diubah menjadi null karena method PUT tidak memerlukan body
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data)
+      setPostpenghuni(true);
+      setTimeout(() => {
+      setPostpenghuni(false);
+      handleClose()
+      }, 3000);
     
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
     // Setelah operasi tambah, tutup modal dan reset formulir
     handleClose();
   };
-
+  useState(()=>{
+    
+  },[])
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -105,16 +157,33 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
               <option value="perempuan">Perempuan</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group controlId="formtambahan biaya">
-            <Form.Label>Tambahan Biaya</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Masukkan tambahan biaya"
-              value={BiayaTambahan}
-              onChange={(e) => setBiayaTambahan(e.target.value)}
+          <Form.Group controlId="formBarangBawaan">
+            <Form.Label>Barang Bawaan</Form.Label>
+            <Form.Check
+              type="checkbox"
+              label="Magic Com"
+              checked={BarangBawaan.includes('Magic Com')}
+              onChange={() => handleCheckboxChange('Magic Com')}
             />
+            <Form.Check
+              type="checkbox"
+              label="Pemanas Air Minum"
+              checked={BarangBawaan.includes('Pemanas Air Minum')}
+              onChange={() => handleCheckboxChange('Pemanas Air Minum')}
+            />
+            <Form.Check
+              type="checkbox"
+              label="Kulkas Kecil"
+              checked={BarangBawaan.includes('Kulkas Kecil')}
+              onChange={() => handleCheckboxChange('Kulkas Kecil')}
+            />
+            <Form.Check
+              type="checkbox"
+              label="Setrika"
+              checked={BarangBawaan.includes('Setrika')}
+              onChange={() => handleCheckboxChange('Setrika')}
+            />            {/* Tambahkan pilihan barang bawaan sesuai kebutuhan */}
           </Form.Group>
-
           {/* Sisipkan bagian form lainnya sesuai kebutuhan Anda */}
           {/* ... */}
 

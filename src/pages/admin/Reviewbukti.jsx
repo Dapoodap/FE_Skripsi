@@ -86,14 +86,14 @@ function Reviewbukti() {
                     <td>Bayar Sewa</td>
                     <td>kamar {bukti.Penghuni.noKamar}</td>
                     <td>
-                      {(() => {
+                    {(() => {
                         switch (bukti.status) {
-                          case 'approve':
-                            return <Badge bg="success" text="dark">Disetujui</Badge>;
-                          case 'decline':
-                            return <Badge bg="danger" text="dark">Gagal</Badge>;
+                          case 'pending':
+                            return <Badge bg="warning" text="dark">pending</Badge>;
+                          case 'acc':
+                            return <Badge bg="success" text="dark">disetujui</Badge>;
                           default:
-                            return <Badge bg="warning" text="dark">Pending</Badge>;
+                            return <Badge bg="danger" text="dark">Pending</Badge>;
                         }
                       })()}
                     </td>
@@ -136,12 +136,12 @@ function Reviewbukti() {
                     <td>
                       {(() => {
                         switch (bukti.status) {
-                          case 'approve':
-                            return <Badge bg="success" text="dark">Disetujui</Badge>;
-                          case 'decline':
-                            return <Badge bg="danger" text="dark">Gagal</Badge>;
+                          case 'pending':
+                            return <Badge bg="warning" text="dark">pending</Badge>;
+                          case 'acc':
+                            return <Badge bg="success" text="dark">disetujui</Badge>;
                           default:
-                            return <Badge bg="warning" text="dark">Pending</Badge>;
+                            return <Badge bg="danger" text="dark">Pending</Badge>;
                         }
                       })()}
                     </td>

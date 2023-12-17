@@ -28,6 +28,7 @@ function UserDetail() {
   const [laporan, setLaporan] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(true);
+  const [peng, setPEngu] = useState([]);
 
   useEffect(() => {
     updateGreeting();
@@ -49,6 +50,11 @@ function UserDetail() {
         const userResponse = await axios.get(
           `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${id}`,{headers: {Authorization: token,},}
         );
+        const penguResponse = await axios.get(
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/pengumuman`,{headers: {Authorization: token,},}
+        );
+
+        setPEngu(penguResponse.data.Data)
         setUser(userResponse.data.data);
         setKamar(userResponse.data.data.Kamar);
         setLaporan(userResponse.data.data.Laporans);
@@ -158,10 +164,16 @@ function UserDetail() {
                       Pemberitahuan Terkait Kos
                     </Card.Header>
                     <Card.Body>
-                      <Alert variant="warning">
-                        <strong>{adminNotification.title}</strong>
-                        <p>{adminNotification.message}</p>
-                      </Alert>
+                    
+                      {peng.map((data, index) => (
+                        <div key={index}>
+                          <Alert variant="warning">
+                          <strong>{data.judulPengumuman}</strong>
+                          <p>{data.deskripsiPengumuman}</p>
+                        </Alert>
+                        </div>
+                      ))}
+                    
                     </Card.Body>
                   </Card>
                   <Card className="mb-4">

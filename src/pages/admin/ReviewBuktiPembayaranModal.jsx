@@ -49,19 +49,32 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
     fetchData();
   }, [idinvoice]);
 
-  const handleApprove = () => {
-    // Logika untuk menyetujui pembayaran
-    // Misalnya, mengirim permintaan ke server untuk mengubah status pembayaran menjadi disetujui
-    // Setelah berhasil, tampilkan toast sukses
-    toast.success('Bukti pembayaran disetujui!', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+  const handleApprove = async () => {
+    const token = localStorage.getItem('token')
+    if (sewa) {
+      const sewaResponse = await axios.put(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/acc/${idinvoice.substring(4)}`,
+        null,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(sewaResponse)
+    }else{
+      const sewaResponse = await axios.put(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp/acc/${idinvoice}`,
+        null
+        ,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(sewaResponse)
+    }
     handleClose();
   };
   const labelStyle = {
@@ -77,9 +90,7 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
   };
   
   const handleDecline = () => {
-    // Logika untuk menolak pembayaran
-    // Misalnya, mengirim permintaan ke server untuk mengubah status pembayaran menjadi ditolak
-    // Setelah berhasil, tampilkan toast sukses
+
     
     handleClose();
   };

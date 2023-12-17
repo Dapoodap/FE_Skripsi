@@ -22,11 +22,12 @@ function Bayarsewa() {
     formData.append('nama', nama);
     formData.append('bulan', bulan);
     formData.append('file', file);
-
+    
     try {
       const token = localStorage.getItem('token')
       const id = jwtDecode(token).id
-      const response = await fetch(`https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/${id}`,{
+      if (bulan) {
+        const response = await fetch(`https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/${id}`,{
         method: 'POST',
         body: formData,
         headers: {
@@ -39,7 +40,11 @@ function Bayarsewa() {
         console.log(token)
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+      }
+      else{
+        alert('pilih bulan')
+      }
+      
       setShowToast(true);
     } catch (error) {
       setShowErrorToast(true);
@@ -103,7 +108,7 @@ function Bayarsewa() {
               value={bulan}
               onChange={(e) => setBulan(e.target.value)}
             >
-              <option value="" disabled>Pilih Bulan</option>
+              <option value="">Pilih Bulan</option>
               <option value="Januari">Januari</option>
               <option value="Februari">Februari</option>
               <option value="Maret">Maret</option>

@@ -1,7 +1,8 @@
 
+import axios from 'axios';
 import { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni, penghuni }) => {
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
+const EditDetailPenghuniModal = ({ show, handleClose, index, penghuni }) => {
     
   const [editedPenghuni, setEditedPenghuni] = useState({
     nama: index?.nama || "",
@@ -11,10 +12,65 @@ const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni,
     password: index?.isChange ? "sudah ganti password" : "belum ganti password",
   });
 
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState(false);
+  const [deletePengSuccess, setdeletePengSuccess] = useState(false);
+  // console.log()
   // ...
+  const handleResetPassword = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios.put(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/pass/${index?.id}`,
+        null,  // Request body diubah menjadi null karena method PUT tidak memerlukan body
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setResetPasswordSuccess(true);
+      setTimeout(() => {
+        setResetPasswordSuccess(false);
+        handleClose()
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  const handleDeletePenghuni = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios.delete(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni/${index?.id}`,  // Request body diubah menjadi null karena method PUT tidak memerlukan body
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setdeletePengSuccess(true);
+      setTimeout(() => {
+        setdeletePengSuccess(false);
+        handleClose()
+      }, 3000);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
   
   return (
     <Modal show={show} onHide={handleClose}>
+      {resetPasswordSuccess && (
+            <Alert variant="success" onClose={() => setResetPasswordSuccess(false)} dismissible>
+              Password berhasil di-reset!
+            </Alert>
+        )}
+      {deletePengSuccess && (
+            <Alert variant="success" onClose={() => setResetPasswordSuccess(false)} dismissible>
+              penghuni berhasil di-hapus!
+            </Alert>
+        )}
       <Modal.Header closeButton>
         <Modal.Title>Edit Detail Penghuni</Modal.Title>
       </Modal.Header>
@@ -69,10 +125,10 @@ const EditDetailPenghuniModal = ({ show, handleClose, index, handleEditPenghuni,
         <Button variant="secondary" onClick={handleClose}>
           Tutup
         </Button>
-        <Button variant="warning" onClick={() => handleEditPenghuni(index, editedPenghuni)}>
+        <Button variant="warning" onClick={() => handleResetPassword()}>
           Reset Password
         </Button>
-        <Button variant="danger" onClick={() => handleEditPenghuni(index, editedPenghuni)}>
+        <Button variant="danger" onClick={() => handleDeletePenghuni()}>
           Hapus Penghuni
         </Button>
       </Modal.Footer>
