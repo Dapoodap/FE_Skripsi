@@ -59,7 +59,7 @@ const Detail = () => {
 
   const nav = useNavigate();
   const booking = () => {
-    nav('/booking',{ state: { tambahanElektronik, hargaKamar: kamar.hargaKamar } });
+    nav('/booking',{ state: { tambahanElektronik, hargaKamar: kamar.hargaKamar,noKamar : id } });
   };
   return (
     <>

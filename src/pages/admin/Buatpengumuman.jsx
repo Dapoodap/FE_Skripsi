@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row, Table } from "react-bootstrap"
-import EditDetailPenghuniModal from "./EditDetailPenghuniModal";
 import axios from "axios";
 import Editpengumumanmodal from "./Editpengumumanmodal";
 

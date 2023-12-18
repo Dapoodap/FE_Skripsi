@@ -27,6 +27,7 @@ function DetailAdmin() {
   const [admin,setAdmin] = useState()
   const [penghunis, setPenghunis] = useState([]);
   const [pengumuman, setPengumuman] = useState([]);
+  const [monthly, setMonthly] = useState([]);
   const [laporans, setLaporans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(true);
@@ -64,6 +65,12 @@ function DetailAdmin() {
             Authorization: token,
           },
         });
+        const total = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor/total', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setMonthly(total.data.Data)
         setLaporans(laporResponse.data.Data);
         setLoading(false);
         setShowSpinner(false);
@@ -79,11 +86,11 @@ function DetailAdmin() {
   // console.log(pengumuman.mao)
   // console.log(laporans)
     const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: monthly.map(item => item.bulan),
         datasets: [
           {
             label: 'Laporan Keluhan',
-            data: [10, 15, 8, 20, 12, 18, 14, 22, 25, 30, 28, 35],
+            data:  monthly.map(item => item.jumlahLaporan),
             fill: false,
             borderColor: 'rgba(75,192,192,1)',
           },

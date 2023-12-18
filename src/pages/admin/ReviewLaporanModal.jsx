@@ -26,12 +26,24 @@ useEffect(()=>{
   fetchLaporan()
 },[])
 console.log(laporan)
-  const handleSubmit = () => {
-    // Proses pengiriman balasan dan pembaruan status ke server
-    // Misalnya, Anda bisa menggunakan fungsi handleSolved yang dilewatkan dari parent component
-    // handleSolved(laporan.id, balasan);
-
-    // Tutup modal setelah submit
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios.put(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor/${laporan?.id}`,
+        {
+          StatusLaporan : !laporan.StatusLaporan
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
     handleClose();
   };
 
@@ -41,12 +53,12 @@ console.log(laporan)
         <Modal.Title>Review Laporan</Modal.Title>
       </Modal.Header>
       {laporan ? (<Modal.Body>
-        <p><strong>Judul Laporan: {laporan.JenisKeluhan}</strong> </p>
+        <p><strong>Jenis Laporan: {laporan.JenisKeluhan}</strong> </p>
         <p><strong>Isi Laporan:</strong></p>
         <p><strong>{laporan.DeskripsiKeluhan}</strong></p>
 
         {/* Form untuk memberi balasan */}
-        <Form.Group controlId="balasan">
+        {/* <Form.Group controlId="balasan">
           <Form.Label>Balasan</Form.Label>
           <Form.Control
             as="textarea"
@@ -55,14 +67,14 @@ console.log(laporan)
             // value={balasan}
             // onChange={handleBalasanChange}
           />
-        </Form.Group>
+        </Form.Group> */}
       </Modal.Body>):<>Loading ...</>}
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Tutup
         </Button>
         <Button variant="success" onClick={handleSubmit}>
-          Selesaikan dan Kirim Balasan
+          Selesaikan
         </Button>
       </Modal.Footer>
     </Modal>

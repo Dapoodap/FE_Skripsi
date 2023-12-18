@@ -14,7 +14,7 @@ function DashboardAdmin() {
   const {id} = useParams()
     const [selectedMenu, setSelectedMenu] = useState('informasi-penghuni');
     const [showOffcanvas, setShowOffcanvas] = useState(false);
-    const nav = useNavigate()
+
   
     const handleBackToRoot = () => {
       navigate('/');

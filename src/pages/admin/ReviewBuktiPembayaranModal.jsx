@@ -49,6 +49,34 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
     fetchData();
   }, [idinvoice]);
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token')
+    if (sewa) {
+      const sewaResponse = await axios.delete(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/inv/${idinvoice.substring(4)}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(sewaResponse)
+      window.location.reload()
+    }else{
+      const sewaResponse = await axios.delete(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp/${idinvoice.substring(4)}`
+        ,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(sewaResponse)
+      window.location.reload()
+    }
+    handleClose();
+  };
   const handleApprove = async () => {
     const token = localStorage.getItem('token')
     if (sewa) {
@@ -61,10 +89,11 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
           },
         }
       );
+      window.location.reload()
       console.log(sewaResponse)
     }else{
       const sewaResponse = await axios.put(
-        `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp/acc/${idinvoice}`,
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp/acc/${idinvoice.substring(4)}`,
         null
         ,
         {
@@ -73,9 +102,38 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
           },
         }
       );
+      window.location.reload()
       console.log(sewaResponse)
     }
     handleClose();
+  };
+  const handleAddPenghuni = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      const response = await axios.post(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni`,
+        {
+          nama : dataDp.nama,
+          noKamar : dataDp.noKamar,
+          noHP : dataDp.noHP,
+          TanggalMasuk : dataDp.tanggal,
+          alamat : dataDp.alamat,
+          jenisKelamin : dataDp.jenisKelamin,
+          BiayaTambahan : dataDp.tambahanSewa,
+          BarangBawaan : JSON.stringify(dataDp.tambahanBawaan)
+        },  // Request body diubah menjadi null karena method PUT tidak memerlukan body
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data)
+      handleClose();
+    } catch (error) {
+      console.log(error)
+    }
+    
   };
   const labelStyle = {
     fontSize: '1.2rem',
@@ -211,6 +269,14 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
         <Button variant="danger" onClick={handleDecline}>
           Decline
         </Button>
+        <Button variant="danger" onClick={handleDelete}>
+          Hapus
+        </Button>
+        {sewa && dataDp.status === 'pending' ? <Button disabled variant="primary" >
+          Tambah Penghuni
+        </Button> : <Button variant="primary" onClick={handleAddPenghuni} >
+          Tambah Penghuni
+        </Button>}
       </Modal.Footer>
       <ToastContainer />
     </Modal>

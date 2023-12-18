@@ -15,12 +15,6 @@ import {
 } from "react-bootstrap";
 
 function UserDetail() {
-  const adminNotification = {
-    title: "Pemberitahuan Penting",
-    message:
-      "Halo Penghuni, terdapat pemeliharaan sistem pada hari Minggu, 25 Desember 2023, pukul 08.00-12.00 WIB. Harap bersiap-siap untuk kemungkinan gangguan layanan. Terima kasih.",
-  };
-
   const [greeting, setGreeting] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [user, setUser] = useState([]);

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Button, Container, Form, Alert } from 'react-bootstrap';
+import { Button, Container, Form, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
-import '../App.css'; // Import a CSS file for additional styling
+// import '../App.css'; // Import a CSS file for additional styling
 
 function Loginpage() {
   const navigate = useNavigate();
@@ -12,9 +12,11 @@ function Loginpage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/login/penghuni', {
@@ -36,6 +38,8 @@ function Loginpage() {
         setShowError(false);
       }, 2000);
       console.error('Error logging in:', error.response.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,8 +67,8 @@ function Loginpage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button className="my-3" variant="primary" type="submit" style={{ width: '100%' }}>
-              Login
+            <Button className="my-3" variant="primary" type="submit" style={{ width: '100%' }} disabled={loading}>
+              {loading ?<><Spinner animation="border" size="sm" />{' Loading...'}</>   : 'Login'}
             </Button>
           </Form>
 
@@ -81,7 +85,7 @@ function Loginpage() {
           )}
 
           <div className="text-center mt-4">
-            <Link to="/">Kembali ke Halaman Awal</Link>
+            <Link to="/Adminlogin">Login sebagai admin</Link>
           </div>
         </div>
       </Container>
