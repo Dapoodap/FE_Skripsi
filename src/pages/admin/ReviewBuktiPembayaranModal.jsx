@@ -272,11 +272,18 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
         <Button variant="danger" onClick={handleDelete}>
           Hapus
         </Button>
-        {sewa && dataDp.status === 'pending' ? <Button disabled variant="primary" >
+        {dataDp ? 
+          dataDp.status === 'pending' ?
+          <Button disabled variant="primary" >
           Tambah Penghuni
-        </Button> : <Button variant="primary" onClick={handleAddPenghuni} >
+        </Button> : 
+         <Button variant="primary" onClick={handleAddPenghuni} >
           Tambah Penghuni
-        </Button>}
+        </Button> :
+        <Button disabled variant="primary" >
+        Tambah Penghuni
+      </Button>
+        }
       </Modal.Footer>
       <ToastContainer />
     </Modal>
