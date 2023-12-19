@@ -132,7 +132,7 @@ function Navigation() {
                 className="flex-grow-1"
                 style={{ maxWidth: '200px', borderRadius: '30px', backgroundColor: 'white', border: '1px solid black', color: 'black', fontSize: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               >
-                Profil
+                Dashboard
               </Button>
               <Button
                 id='BtnSignOut'

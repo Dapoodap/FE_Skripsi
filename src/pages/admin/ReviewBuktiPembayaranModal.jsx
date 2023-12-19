@@ -11,7 +11,6 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
   const [dataDp, setDataDp] = useState();
   const [id, setID] = useState();
   const nav = useNavigate()
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
@@ -90,7 +89,6 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
         }
       );
       window.location.reload()
-      console.log(sewaResponse)
     }else{
       const sewaResponse = await axios.put(
         `https://be-skripsi-6v25wnffuq-uc.a.run.app/dp/acc/${idinvoice.substring(4)}`,
@@ -103,7 +101,6 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
         }
       );
       window.location.reload()
-      console.log(sewaResponse)
     }
     handleClose();
   };
@@ -188,6 +185,10 @@ function ReviewBuktiPembayaranModal({ show, handleClose, idinvoice }) {
                   <div>
                     <h5>Kamar:</h5>
                     <p>{dataSewa.Penghuni?.noKamar}</p>
+                  </div>
+                  <div>
+                    <h5>Untuk Bulan:</h5>
+                    <p>{dataSewa.bulan}</p>
                   </div>
 
                   <div>

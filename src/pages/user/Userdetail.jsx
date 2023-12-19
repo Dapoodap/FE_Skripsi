@@ -214,7 +214,7 @@ function UserDetail() {
                               <td>{formatISODate(lapor.TanggalLaporan)}</td>
                               <td>{lapor.JenisKeluhan}</td>
                               <td>{lapor.DeskripsiKeluhan}</td>
-                              <td>{lapor.StatusLaporan ? (<Badge className='mx-2' bg="success">Solved</Badge>):(<Badge className='mx-2' bg="warning" text="dark">Pending</Badge>)}</td>
+                              <td>{lapor.StatusLaporan ? (<Badge className='mx-2' bg="success">Teratasi</Badge>):(<Badge className='mx-2' bg="warning" text="dark">Pending</Badge>)}</td>
                             </tr>
                           ))}
                         </tbody>

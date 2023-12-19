@@ -1,10 +1,11 @@
 
-import { Button, Col, Container, Form, ListGroup, Modal, Row, Tab, Tabs } from 'react-bootstrap'
+import { Button, Col, Container, Form, ListGroup, Modal, Overlay, Row, Spinner, Tab, Tabs, Tooltip } from 'react-bootstrap'
 import Dana from '../components/payment/Dana'
 import Bni from '../components/payment/Bni'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 
 function BookingForm() {
@@ -20,6 +21,8 @@ function BookingForm() {
   const [file, setFile] = useState(null); // Use null for files
   const [nomorInvoice, setNomorInvoice] = useState(null);
   const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false); 
 
 
   const tambahanSewa = tambahanElektronik.length * 200000;
@@ -36,11 +39,20 @@ function BookingForm() {
     return formattedNumber.replace(/IDR/g, 'Rp.');
   };
   const closeModal = () => {
+    setCopied(false);
+    setLoading(false); 
     setShowModal(false);
     setNomorInvoice('');
     window.location.reload() // Clear invoice number when modal is closed
   };
+  const handleCopy = () => {
+    setCopied(true);
 
+    // Hide the success message after 2 seconds
+    setTimeout(() => {
+      setCopied(false);
+    }, 5000);
+  };
   useEffect(()=>{
     const checkKamar = async () =>{
       try {
@@ -56,7 +68,7 @@ function BookingForm() {
   },[])
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append('nama', nama);
     formData.append('noHP', noHP);
@@ -67,18 +79,20 @@ function BookingForm() {
     formData.append('tambahanBawaan', JSON.stringify(tambahanElektronik)); // Convert array to string
     formData.append('tambahanSewa', tambahanSewa);
     formData.append('file', file);
-    
-
+  
     try {
+      setLoading(true); // Set loading to true before making the request
       const response = await axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/dp', formData);
       console.log('Response from server:', response.data);
       setNomorInvoice(response.data.data.nomorInvoice); // Save invoice number
       setShowModal(true); // Show the modal
       // Handle success, show a success message, etc.
-      
     } catch (error) {
       console.error('Error:', error);
       // Handle error, show an error message, etc.
+    } finally {
+      setLoading(false); // Set loading to false after the request is complete
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // Set loading to false after the request is complete
     }
   };
 
@@ -158,9 +172,16 @@ function BookingForm() {
               <Form.Control type="text" value={formatCurrency(totalSewa)} readOnly />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="my-5">
-            Submit
-          </Button>
+            <Button variant="primary" type="submit" className="my-5" disabled={loading}>
+          {loading ? (
+            <>
+              <Spinner animation="border" size="sm" className="mr-2" />
+              Loading...
+            </>
+          ) : (
+            'Submit'
+          )}
+        </Button>
             </Form>
           </div>
         </Col>
@@ -215,6 +236,16 @@ function BookingForm() {
         </Modal.Header>
         <Modal.Body>
           <p>Silahkan screenshot atau salin nomor invoice ini untuk melihat statusnya nanti: {nomorInvoice}</p>
+          <CopyToClipboard text={nomorInvoice} onCopy={handleCopy}>
+            <Button variant="primary">Copy Nomor Invoice</Button>
+          </CopyToClipboard>
+          <Overlay target={Button} show={copied} placement="top">
+            {(props) => (
+              <Tooltip id="overlay-example" {...props}>
+                Berhasil disalin
+              </Tooltip>
+            )}
+          </Overlay>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>

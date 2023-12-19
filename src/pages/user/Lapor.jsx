@@ -1,17 +1,18 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { Button, Card, Form, Toast } from "react-bootstrap";
+import { Button, Card, Form, Toast, Spinner } from "react-bootstrap";
 
 function Lapor() {
   const [iduser, setIduser] = useState('');
   const [token, setToken] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     IdPelapor: '',
     JenisKeluhan: '',
     DeskripsiKeluhan: '',
-    TanggalLaporan: '', // Add TanggalLaporan in formData
+    TanggalLaporan: '',
   });
 
   useEffect(() => {
@@ -20,11 +21,10 @@ function Lapor() {
         const token = localStorage.getItem('token');
         setToken(token)
         setIduser(jwtDecode(token).id);
-        // Set the IdPelapor in the state
         setFormData((prevData) => ({
           ...prevData,
           IdPelapor: jwtDecode(token).id,
-          TanggalLaporan: getCurrentDate(), // Set current date
+          TanggalLaporan: getCurrentDate(),
         }));
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -32,9 +32,8 @@ function Lapor() {
     };
 
     fetchUserList();
-    
   }, []);
-  // console.log(token)
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -46,30 +45,34 @@ function Lapor() {
   const getCurrentDate = () => {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
     return `${mm}/${dd}/${yyyy}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can now use formData with the TanggalLaporan included to send data to the server
-    console.log('Data yang akan dikirim:', formData);
-    // Add your logic to send data using axios
-    axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor ',formData,{headers: {Authorization: token,},})
-      .then(response => {
-        console.log(response.data);
-        setShowToast(true);
-        setFormData({
-          IdPelapor: '',
-          jenisKeluhan: '',
-          deskripsiKeluhan: '',
-        });
-      })
-      .catch(error => {
-        console.error(error);
+    setLoading(true);
+
+    try {
+      const response = await axios.post('https://be-skripsi-6v25wnffuq-uc.a.run.app/lapor', formData, {
+        headers: {
+          Authorization: token,
+        },
       });
+
+      if (response.status !== 201) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      setShowToast(true);
+      setLoading(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('Error:', error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -108,23 +111,22 @@ function Lapor() {
           <Form.Control type="text" readOnly value={formData.TanggalLaporan} />
         </Form.Group>
 
-        <Button variant="primary" type="submit" style={{ marginTop: '10px' }}>
-          Submit
+        <Button variant="primary" type="submit" style={{ marginTop: '10px' }} disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : 'Submit'}
         </Button>
       </Form>
       <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-          style={{ position: 'absolute', top: 0, right: 0 }}
-        >
-          <Toast.Header>
-            <strong className="me-auto">Laporan</strong>
-          </Toast.Header>
-          <Toast.Body>Laporan baru ditambahkan!</Toast.Body>
-        </Toast>
-
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        style={{ position: 'absolute', top: 0, right: 0 }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">Laporan</strong>
+        </Toast.Header>
+        <Toast.Body>Laporan baru ditambahkan!</Toast.Body>
+      </Toast>
     </Card>
   );
 }
