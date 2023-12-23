@@ -13,6 +13,7 @@ function Bayarsewa() {
   const [nama, setNama] = useState('');
   const [bulan, setBulan] = useState('');
   const [file, setFile] = useState(null);
+  const [databulan,setDatabulan] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +65,7 @@ function Bayarsewa() {
             Authorization: token,
           },
         });
+        setDatabulan(JSON.parse(userResponse.data.data.dataPembayaran))
         setNama(userResponse.data.data.nama);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -73,6 +75,7 @@ function Bayarsewa() {
     fetchUserList();
   }, []);
 
+  console.log(databulan)
   const handleImage = async (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
@@ -106,18 +109,19 @@ function Bayarsewa() {
             <Form.Label>Bayar Sewa Untuk Bulan</Form.Label>
             <Form.Select name="bulanSewa" value={bulan} onChange={(e) => setBulan(e.target.value)}>
               <option value="">Pilih Bulan</option>
-              <option value="Januari">Januari</option>
-              <option value="Februari">Februari</option>
-              <option value="Maret">Maret</option>
-              <option value="April">April</option>
-              <option value="Mei">Mei</option>
-              <option value="Juni">Juni</option>
-              <option value="Juli">Juli</option>
-              <option value="Agustus">Agustus</option>
-              <option value="September">September</option>
-              <option value="Oktober">Oktober</option>
-              <option value="November">November</option>
-              <option value="Desember">Desember</option>
+              {databulan ? <>
+                {databulan.map((data,index)=>(
+                  data.status ? (
+                    <>
+                    <option disabled value={data.bulan}>{data.bulan} sudah lunas</option>
+                    </>
+                  ):
+                  <>
+                    <option value={data.bulan}>{data.bulan}</option>
+                  </>
+                ))}
+              </> : <>lading ...</>}
+              
               {/* ... (add other months) */}
             </Form.Select>
           </Form.Group>

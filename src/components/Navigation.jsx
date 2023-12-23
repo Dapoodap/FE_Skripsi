@@ -121,7 +121,7 @@ function Navigation() {
             <Nav.Link id='listNav' ><Link style={{ textDecoration: 'none', color: '#24AB70', fontSize: '23px' }} to={'/'}>Beranda</Link></Nav.Link>
             <Nav.Link id='listNav' ><Link style={{ textDecoration: 'none', color: '#24AB70', fontSize: '23px' }} to={'/about'}>Tentang</Link></Nav.Link>
             <Nav.Link id='listNav' ><Link style={{ textDecoration: 'none', color: '#24AB70', fontSize: '23px' }} to={'/room'}>Kamar</Link></Nav.Link>
-            <Nav.Link id='listNav' ><Link style={{ textDecoration: 'none', color: '#24AB70', fontSize: '23px' }} to={'/contact'}>Cari invoice</Link></Nav.Link>
+            <Nav.Link id='listNav' ><Link style={{ textDecoration: 'none', color: '#24AB70', fontSize: '23px' }} to={'/search'}>Cari invoice</Link></Nav.Link>
 
           </Nav>
           {auth ? (

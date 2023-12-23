@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { Button, Container, Form, Alert, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import '../App.css'; // Import a CSS file for additional styling
 
 function AdminLogin() {
@@ -40,7 +40,9 @@ function AdminLogin() {
       <Container fluid className="login-page">
         <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
           <div className="login-form p-4">
+          <Link to="/" className="text-decoration-none">
             <h1 className="text-center brand-name">Kos Dariz</h1>
+          </Link>
             <p className="text-center mb-4">Ini login page untuk admin!</p>
             <Form onSubmit={handleLogin}>
               <Form.Group controlId="formBasicEmail" className="mb-3">

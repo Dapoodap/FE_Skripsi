@@ -47,7 +47,9 @@ function Loginpage() {
     <Container fluid className="login-page">
       <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
         <div className="login-form p-4">
-          <h1 className="text-center brand-name">Kos Dariz</h1>
+        <Link to="/" className="text-decoration-none">
+            <h1 className="text-center brand-name">Kos Dariz</h1>
+          </Link>
           <p className="text-center mb-4">Hanya penghuni dengan username dan password yang dapat masuk.</p>
           <Form onSubmit={handleLogin}>
             <Form.Group controlId="formBasicEmail" className="mb-3">
