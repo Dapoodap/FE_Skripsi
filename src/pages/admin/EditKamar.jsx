@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Table, Spinner } from "react-bootstrap";
 import axios from "axios";
 import ModalEditKamar from "./ModalEditKamar";
+import {CSVLink} from 'react-csv'
 
 function EditKamar() {
   const [kamars, setKamars] = useState([]);
@@ -10,6 +11,7 @@ function EditKamar() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [penghuniToEdit, setPenghuniToEdit] = useState();
+  const [formatData, setFormatData] = useState([]);
   const handleOpenEditModal = (penghuni) => {
     setPenghuniToEdit(penghuni);
     setShowEditModal(true);
@@ -22,7 +24,7 @@ function EditKamar() {
         const token = localStorage.getItem("token");
 
         // Fetch admin data
-        const penghuniResponse = await axios.get(
+        const kamarResponse = await axios.get(
           `https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar`,
           {
             headers: {
@@ -30,8 +32,23 @@ function EditKamar() {
             },
           }
         );
-        setKamars(penghuniResponse.data.Data);
+        const formattedKamar = kamarResponse.data.Data.map(kamar => {
+          return {
+            ...kamar,
+            // Tambahkan kolom baru untuk menyatukan array BarangBawaan
+            fasilitasKamar: JSON.parse(kamar.fasilitasKamar),
+            // Pastikan semua properti memiliki nilai yang valid
+            "No. Kamar": kamar.noKamar || '',  // Ganti dengan properti sebenarnya
+            "Tipe Kamar": kamar.tipeKamar || '',  // Ganti dengan properti sebenarnya
+            "Rating Kamar": kamar.ratingKamar || '',  // Ganti dengan properti sebenarnya
+            "Harga Kamar": kamar.hargaKamar || '',  // Ganti dengan properti sebenarnya
+            "status": kamar.statusKamar || '',  // Ganti dengan properti sebenarnya
+            // ... properti lain
+          };
+        });
+        setKamars(kamarResponse.data.Data);
         setLoading(false);
+        setFormatData(formattedKamar)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -54,7 +71,24 @@ function EditKamar() {
                 <span className="sr-only"></span>
               </Spinner>
             ) : (
-              
+              <>
+              <CSVLink
+                data={formatData}
+                headers={[
+                  "No. Kamar",
+                  "fasilitasKamar",
+                  "Tipe Kamar",
+                  "Rating Kamar",
+                  "Harga Kamar",
+                  "status",
+                  /* tambahkan header lain jika diperlukan */
+                ]}
+                enclosingCharacter={`"`}
+                filename="data-kamar"
+                className="btn btn-success mb-3"
+              >
+                Export Data Penghuni
+              </CSVLink>
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
@@ -88,6 +122,8 @@ function EditKamar() {
                   ))}
                 </tbody>
               </Table>
+              </>
+              
             )}
           </div>
         </Card.Body>

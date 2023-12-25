@@ -32,6 +32,21 @@ function DetailAdmin() {
   const [kamar,setKamar] = useState([])
   const [loading, setLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(true);
+  function formatDateTime(dateTimeString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    };
+    const formattedDateTime = new Date(dateTimeString).toLocaleString(
+      "id-ID",
+      options
+    );
+    return formattedDateTime;
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -227,7 +242,7 @@ function DetailAdmin() {
                               <div>
                                 <strong>{laporan.Penghuni.nama}</strong>
                                 <p>{laporan.DeskripsiKeluhan}</p>
-                                <p>{laporan.TanggalLaporan}</p>
+                                <p>{formatDateTime(laporan.TanggalLaporan)}</p>
                               </div>
                               <Badge className='mx-2' bg={laporan.StatusLaporan ? "success" : "warning"}>
                                 {laporan.StatusLaporan ? "Success" : "Warning"}

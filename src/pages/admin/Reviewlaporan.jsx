@@ -5,6 +5,21 @@ import axios from "axios";
 import moment from "moment";
 
 function Reviewlaporan() {
+  function formatDateTime(dateTimeString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    };
+    const formattedDateTime = new Date(dateTimeString).toLocaleString(
+      "id-ID",
+      options
+    );
+    return formattedDateTime;
+  }
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedLaporan, setSelectedLaporan] = useState(null);
   const [laporans,setLaporans] = useState([]);
@@ -64,7 +79,7 @@ function Reviewlaporan() {
               <td>{laporan.id}</td>
               <td>{laporan.JenisKeluhan}</td>
               <td>{laporan.Penghuni.noKamar}</td>
-              <td>{moment.utc(laporan.TanggalLaporan).format('MM/DD/YYYY')}</td>
+              <td>{formatDateTime(laporan.TanggalLaporan)}</td>
               <td>
                 {!laporan.StatusLaporan ? (
                   <Badge bg="warning" text="dark">
