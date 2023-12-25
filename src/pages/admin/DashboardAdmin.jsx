@@ -9,6 +9,7 @@ import Buatpengumuman from './Buatpengumuman';
 import { useNavigate, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import EditKamar from './EditKamar';
 
 function DashboardAdmin() {
   const {id} = useParams()
@@ -91,6 +92,13 @@ function DashboardAdmin() {
             </ListGroup.Item>
             <ListGroup.Item
               action
+              active={selectedMenu === 'data-kamar'}
+              onClick={() => handleMenuClick('data-kamar')}
+            >
+              Data Kamar
+            </ListGroup.Item>
+            <ListGroup.Item
+              action
               active={selectedMenu === 'review-bukti'}
               onClick={() => handleMenuClick('review-bukti')}
             >
@@ -133,6 +141,13 @@ function DashboardAdmin() {
                 onClick={() => handleMenuClick('data-penghuni')}
               >
                 Data Penghuni
+              </ListGroup.Item>
+              <ListGroup.Item
+                action
+                active={selectedMenu === 'data-kamar'}
+                onClick={() => handleMenuClick('data-kamar')}
+              >
+                Data Kamar
               </ListGroup.Item>
               <ListGroup.Item
               action
@@ -180,6 +195,9 @@ function DashboardAdmin() {
 
           {selectedMenu === 'data-penghuni' && (
             <Datapenghuni/>
+          )}
+          {selectedMenu === 'data-kamar' && (
+            <EditKamar/>
           )}
           {selectedMenu === 'review-bukti' && (
             <Reviewbukti/>

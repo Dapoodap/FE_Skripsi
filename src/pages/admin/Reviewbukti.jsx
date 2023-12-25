@@ -44,7 +44,6 @@ function Reviewbukti() {
           }
         );
         setBuktiPembayaraninv(invresponse.data.Data);
-        console.log(dpresponse.data.Data);
         setBuktiPembayarandp(dpresponse.data.Data)
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -202,6 +202,7 @@ function UserDetail() {
                             <th>Tanggal Laporan</th>
                             <th>Jenis Keluhan</th>
                             <th>Deskripsi</th>
+                            <th>Balasan</th>
                             <th>Status</th>
                           </tr>
                         </thead>
@@ -214,6 +215,7 @@ function UserDetail() {
                               <td>{formatISODate(lapor.TanggalLaporan)}</td>
                               <td>{lapor.JenisKeluhan}</td>
                               <td>{lapor.DeskripsiKeluhan}</td>
+                              <td>{lapor.Balasan ? lapor.Balasan : "Belum Diberikan Balasan"}</td>
                               <td>{lapor.StatusLaporan ? (<Badge className='mx-2' bg="success">Teratasi</Badge>):(<Badge className='mx-2' bg="warning" text="dark">Pending</Badge>)}</td>
                             </tr>
                           ))}

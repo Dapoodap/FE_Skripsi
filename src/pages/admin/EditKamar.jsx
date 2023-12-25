@@ -1,19 +1,15 @@
 // Datapenghuni.js
 import { useEffect, useState } from "react";
 import { Button, Card, Table, Spinner } from "react-bootstrap";
-import TambahPenghuniModal from "./TambahPenghuniModal";
-import EditDetailPenghuniModal from "./EditDetailPenghuniModal";
 import axios from "axios";
+import ModalEditKamar from "./ModalEditKamar";
 
-function Datapenghuni() {
-  const [penghunis, setPenghunis] = useState([]);
+function EditKamar() {
+  const [kamars, setKamars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [penghuniToEdit, setPenghuniToEdit] = useState();
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
   const handleOpenEditModal = (penghuni) => {
     setPenghuniToEdit(penghuni);
     setShowEditModal(true);
@@ -27,14 +23,14 @@ function Datapenghuni() {
 
         // Fetch admin data
         const penghuniResponse = await axios.get(
-          `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni`,
+          `https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar`,
           {
             headers: {
               Authorization: token,
             },
           }
         );
-        setPenghunis(penghuniResponse.data.Data);
+        setKamars(penghuniResponse.data.Data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -62,30 +58,28 @@ function Datapenghuni() {
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th>Nama Penghuni</th>
                     <th>No. Kamar</th>
-                    <th>Tanggal Masuk</th>
-                    <th>Nomor Telpon</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Ubah Password</th>
+                    <th>Tipe Kamar</th>
+                    <th>Fasilitas Kamar</th>
+                    <th>Rating Kamar</th>
+                    <th>Harga Kamar</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {penghunis.map((penghuni, index) => (
+                  {kamars.map((kamar, index) => (
                     <tr key={index}>
-                      <td>{penghuni.nama}</td>
-                      <td>{penghuni.noKamar}</td>
-                      <td>{penghuni.TanggalMasuk}</td>
-                      <td>{penghuni.noHP}</td>
-                      <td>{penghuni.username}</td>
-                      <td>{penghuni.password}</td>
-                      <td>{"" + penghuni.isChange}</td>
+                      <td>{kamar.noKamar}</td>
+                      <td>{kamar.tipeKamar}</td>
+                      <td>
+                        {JSON.parse(kamar.fasilitasKamar).join(', ')}
+                    </td>
+                      <td>{kamar.ratingKamar}</td>
+                      <td>{kamar.hargaKamar}</td>
                       <td>
                         <Button
                           variant="info"
-                          onClick={() => handleOpenEditModal(penghuni)}
+                          onClick={() => handleOpenEditModal(kamar)}
                         >
                           Edit
                         </Button>
@@ -97,19 +91,15 @@ function Datapenghuni() {
             )}
           </div>
         </Card.Body>
-        <Button variant="primary" onClick={handleOpenModal}>
-          Tambah Data Penghuni
-        </Button>
-        <TambahPenghuniModal show={showModal} handleClose={handleCloseModal} />
       </Card>
-      {showEditModal ? (<EditDetailPenghuniModal
+      {showEditModal ? (<ModalEditKamar
         show={showEditModal}
         handleClose={handleCloseEditModal}
-        index={penghuniToEdit}
+        data={penghuniToEdit}
         // penghuni={penghunis[penghuniToEdit]}
       />):(<></>)}
     </>
   );
 }
 
-export default Datapenghuni;
+export default EditKamar;

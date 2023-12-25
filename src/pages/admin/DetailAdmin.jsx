@@ -29,6 +29,7 @@ function DetailAdmin() {
   const [pengumuman, setPengumuman] = useState([]);
   const [monthly, setMonthly] = useState([]);
   const [laporans, setLaporans] = useState([]);
+  const [kamar,setKamar] = useState([])
   const [loading, setLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(true);
   useEffect(() => {
@@ -44,6 +45,13 @@ function DetailAdmin() {
           },
         });
         setAdmin(adminResponse.data.data.username);
+        const kamarResponse = await axios.get(`https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        // setKamar();
+        setKamar(kamarResponse.data.Data)
 
         // Fetch all penghuni data
         const penghuniResponse = await axios.get('https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni', {
@@ -159,6 +167,29 @@ function DetailAdmin() {
                                 <td>{penghuni.nama}</td>
                                 <td>{penghuni.noKamar}</td>
                                 <td>{penghuni.noHP}</td>
+                            </tr>
+                            ))}
+                        </tbody>
+                        </Table>
+                      </Card.Body>
+                    </Card>
+                    <Card className="mb-4">
+                      <Card.Header>Data Kamar</Card.Header>
+                      <Card.Body>
+                      <Table striped bordered hover responsive>
+                        <thead>
+                            <tr>
+                            <th>noKamar</th>
+                            <th>TipeKamar</th>
+                            <th>StatusKamar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {kamar.map((kamar, index) => (
+                            <tr key={index}>
+                                <td>{kamar.noKamar}</td>
+                                <td>{kamar.tipeKamar}</td>
+                                <td>{kamar.statusKamar}</td>
                             </tr>
                             ))}
                         </tbody>

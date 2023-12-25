@@ -41,7 +41,6 @@ function Reviewlaporan() {
         // Logika untuk meninjau laporan
         console.log('Review laporan dengan id:', id);
       };
-      console.log(laporans)
   return (
     <>
     <Card className="mb-4" style={{ backgroundColor: '#ECE3CE' }}>
