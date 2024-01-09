@@ -89,6 +89,12 @@ function SearchInv() {
                     <th>Status</th>
                     <th>Total Pembayaran</th>
                     <th>DP Yang Dibayarkan</th>
+                    {invoices && invoices.status === 'acc' && (
+                      <>
+                        <th>Username</th>
+                        <th>Password</th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -110,6 +116,12 @@ function SearchInv() {
                       </td>
                       <td>{formatCurrency(invoices.totalSewa)}</td>
                       <td>{formatCurrency(invoices.totalDP)}</td>
+                      {invoices.status === 'acc' && (
+                        <>
+                          <td>pghn_{invoices.noKamar}</td>
+                          <td>pass_{invoices.noKamar}</td>
+                        </>
+                      )}
                     </tr>
                   ) : (
                     <tr>
