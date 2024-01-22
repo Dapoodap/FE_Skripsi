@@ -4,19 +4,17 @@ import { Card } from 'react-bootstrap'
 function Bni() {
   return (
     <>
-    <Card style={{ maxWidth: '100%', backgroundColor: '#4CAF50', color: 'white' }}>
+    <Card style={{ maxWidth: '100%', backgroundColor: '#FF6600', color: 'white' }}>
       <Card.Body>
-        <Card.Title style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>BNI Virtual Account</Card.Title>
+        <Card.Title style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>BNI Transfer</Card.Title>
         <hr style={{ backgroundColor: 'white' }} />
         <Card.Text style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
-          <strong>Nomor Rekening:</strong> 1234 5678 9012 3456
+          <strong>Nomor Rekening:</strong> 1209962125
         </Card.Text>
         <Card.Text style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
-          <strong>Atas Nama:</strong> PT. Contoh Pembayaran
+          <strong>Atas Nama:</strong> Daffa Radhitya Pratama Wina Putra
         </Card.Text>
-        <Card.Text style={{ fontSize: '1.2rem' }}>
-          <strong>Berlaku Hingga:</strong> 31 Desember 2023
-        </Card.Text>
+        
       </Card.Body>
     </Card>
     </>

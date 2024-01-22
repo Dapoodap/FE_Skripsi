@@ -4,11 +4,9 @@ import {
   Col,
   Container,
   Image,
-
   Row,
 } from "react-bootstrap";
 import kos from "../assets/kos2.jpeg";
-
 import Navigation from "../components/Navigation";
 import Cardvis from "../components/Cardvis";
 import AOS from "aos";
@@ -161,7 +159,7 @@ function Homescreen() {
                 Wisma Kos DARIZ
               </p>
               <p style={{ fontSize: "25px", fontWeight: "500" }}>
-              Rasakan kemudahan pembayaran sewa dan uang muka dengan <span className="fst-italic">chatbot</span> kami. Temukan info lebih lanjut di bagian 'Tentang'!
+              Rasakan kemudahan pembayaran sewa dan uang muka dengan <span className="fst-italic">chatbot</span> kami. Temukan info lebih lanjut di bagian Tentang!
               dan coba pengalaman yang lancar dan efisien dalam menyewa kamar.
               </p>
               <a

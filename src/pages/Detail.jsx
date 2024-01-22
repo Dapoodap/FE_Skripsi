@@ -144,7 +144,8 @@ const Detail = () => {
                 <Dropdown.Menu style={{ border:'1px solid black', backgroundColor:'white',color:'black',width:'100%'}}>
                     <Dropdown.Item eventKey="Magic Com">Magic Com</Dropdown.Item>
                     <Dropdown.Item eventKey="Pemanas Air">Pemanas Air</Dropdown.Item>
-                    <Dropdown.Item eventKey="Kulkas">Kulkas</Dropdown.Item>
+                    <Dropdown.Item eventKey="Kulkas Kecil">Kulkas</Dropdown.Item>
+                    <Dropdown.Item eventKey="Setrika">Setrika</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             <div>

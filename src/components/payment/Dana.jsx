@@ -8,7 +8,7 @@ function Dana() {
         <Card.Title style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Dana E-Wallet <Badge className='mx-2' variant="warning">Baru</Badge></Card.Title>
         <hr style={{ backgroundColor: 'white' }} />
         <Card.Text style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
-        <strong>Nomor Telepon Dana Usaha:</strong> 231131231
+        <strong>Nomor Telepon Dana Usaha:</strong> 0895360965318
         </Card.Text>
         <Card.Text style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
             <strong>Atas Nama:</strong> Daffa Radhitya
@@ -17,10 +17,10 @@ function Dana() {
         <strong >QR Code:</strong>
          
          <img 
-           src="https://via.placeholder.com/150" 
+           src="https://storage.googleapis.com/kos_dariz_bucket_gambar/dana%20barcode.jpeg" 
            alt="QR Code"
            className="img-fluid mt-3 mx-3"
-           style={{ borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+           style={{ borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', width:'200px'}}
          />
         </Card.Text>
       </Card.Body>

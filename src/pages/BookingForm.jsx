@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import Shopee from '../components/payment/Shopee';
 
 
 function BookingForm() {
@@ -118,6 +119,9 @@ function BookingForm() {
         </Tab>
         <Tab eventKey="ComponentB" title="BNI">
           <Bni />
+        </Tab>
+        <Tab eventKey="ComponentC" title="Shopee Pay">
+          <Shopee/>
         </Tab>
       </Tabs>
             

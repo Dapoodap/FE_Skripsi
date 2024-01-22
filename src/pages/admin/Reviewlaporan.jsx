@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Badge, Button, Card, Table } from "react-bootstrap";
 import ReviewLaporanModal from "./ReviewLaporanModal";
 import axios from "axios";
-import moment from "moment";
 
 function Reviewlaporan() {
   function formatDateTime(dateTimeString) {
