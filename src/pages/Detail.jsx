@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-// import { useState } from 'react';
 
 
 const Detail = () => {
@@ -43,6 +42,7 @@ const Detail = () => {
     };
 
     fetchKamarList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleElectronicsChange = (eventKey) => {

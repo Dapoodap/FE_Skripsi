@@ -53,7 +53,8 @@ const EditDetailPenghuniModal = ({ show, handleClose, index, penghuni }) => {
       setTimeout(() => {
         setdeletePengSuccess(false);
         handleClose()
-      }, 3000);
+        window.location.reload()
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
     }

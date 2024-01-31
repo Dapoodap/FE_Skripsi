@@ -50,7 +50,17 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
     try {
       const token = localStorage.getItem('token')
       const BiayaTambahan = BarangBawaan.length * 200000
-      
+      const kamaresponse = await axios.put(
+        `https://be-skripsi-6v25wnffuq-uc.a.run.app/kamar/${noKamar}`,
+        {
+          statusKamar : 'kosong',
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       const response = await axios.post(
         `https://be-skripsi-6v25wnffuq-uc.a.run.app/penghuni`,
         {
@@ -74,6 +84,7 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
       setTimeout(() => {
       setPostpenghuni(false);
       handleClose()
+      window.location.reload()
       }, 3000);
     
 
@@ -112,8 +123,8 @@ const TambahPenghuniModal = ({ show, handleClose, tambahPenghuni }) => {
             >
               <option value="">Pilih Nomor Kamar</option>
               {listKamar.map((kamar) => (
-                <option key={kamar.id} value={kamar.noKamar} disabled={kamar.statusKamar === 'isi'}>
-                  Kamar tipe {kamar.tipeKamar} {kamar.noKamar} {kamar.status === 'isi' && '(Terisi)'}
+                <option key={kamar.id} value={kamar.noKamar}>
+                  Kamar tipe {kamar.tipeKamar} {kamar.noKamar}
                 </option>
               ))}
             </Form.Control>

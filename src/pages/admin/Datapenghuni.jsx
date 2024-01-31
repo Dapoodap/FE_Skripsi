@@ -76,7 +76,7 @@ function Datapenghuni() {
           return {
             ...penghuni,
             // Tambahkan kolom baru untuk menyatukan array BarangBawaan
-            AllBarangBawaan: JSON.parse(JSON.parse(penghuni.BarangBawaan)),
+            AllBarangBawaan: JSON.parse(penghuni.BarangBawaan),
             // Pastikan semua properti memiliki nilai yang valid
             Nama: penghuni.nama || "",
             "No. Kamar": penghuni.noKamar || "",
@@ -103,7 +103,7 @@ function Datapenghuni() {
 
     fetchData();
   }, []);
-
+console.log(penghunis)
   return (
     <>
       <Card className="mb-4" style={{ backgroundColor: "#ECE3CE" }}>
@@ -161,7 +161,9 @@ function Datapenghuni() {
                       <th>Tanggal Masuk</th>
                       <th>Nomor Telpon</th>
                       <th>Username</th>
-                      <th>Password</th>
+                      <th>Alamat</th>
+                      <th>Biaya Tambahan</th>
+                      <th>Biaya Sewa</th>
                       <th>Ubah Password</th>
                       <th>Aksi</th>
                     </tr>
@@ -174,7 +176,9 @@ function Datapenghuni() {
                         <td>{formatDateTime(penghuni.TanggalMasuk)}</td>
                         <td>{penghuni.noHP}</td>
                         <td>{penghuni.username}</td>
-                        <td>{penghuni.password}</td>
+                        <td>{penghuni.alamat}</td>
+                        <td>{penghuni.BiayaTambahan}</td>
+                        <td>{penghuni.BiayaSewaBulanan}</td>
                         <td>{"" + penghuni.isChange}</td>
                         <td>
                           <Button
